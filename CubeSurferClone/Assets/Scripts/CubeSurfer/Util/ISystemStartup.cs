@@ -1,6 +1,6 @@
 using Leopotam.Ecs;
 
-namespace CubeSurfer
+namespace CubeSurfer.Util
 {
     public interface ISystemStartup
     {
