@@ -43,3 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c92cd53c3515461ab784bd3fc524458b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generationSettings:
+    walls: 0
+    turns: 0
+    lavaLakes: 0
+    platformsAmount: 5
+    platformWidth: 0
+    platformLength: 0
+    platformHeight: 1
