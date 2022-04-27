@@ -63,17 +63,8 @@ namespace CubeSurfer.EcsSystem.Level
             };
         }
 
-        private enum Axis
-        {
-            PositiveX, NegativeX,
-            PositiveZ
-        }
-
         private void GenerateLevel(ref GenerationSettings settings)
         {
-            var axis = Axis.PositiveZ;
-
-
             var previousObject = CreatePlatform(settings.regularPlatforms[0], null);
             for (var i = 1; i < _regularPlatformsAmount; ++i)
             {
