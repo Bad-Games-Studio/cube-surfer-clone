@@ -7,6 +7,7 @@ namespace CubeSurfer.EcsEntity
     public class Level : MonoBehaviour, IEcsWorldEntity
     {
         [SerializeField] private EcsComponent.Level.GenerationSettings generationSettings;
+        public ref EcsComponent.Level.GenerationSettings GenerationSettings => ref generationSettings;
         
         public void CreateEntityIn(EcsWorld world)
         {

@@ -6,17 +6,27 @@ namespace CubeSurfer.EcsComponent.Level
     [Serializable]
     public struct GenerationSettings
     {
+        private const float MinPercentage = 0.05f;
+        private const float MaxPercentage = 0.20f;
+        
         [Header("Features")]
-        public bool walls;
-        public bool turns;
-        public bool lavaLakes;
-
-        [Range(5, 25)]
+        [Range(5, 50)]
         public int platformsAmount;
+        
+        public bool walls;
+        
+        public bool turns;
+        [Range(MinPercentage, MaxPercentage)] public float turnsPercentage;
+        
+        public bool lavaLakes;
+        [Range(MinPercentage, MaxPercentage)] public float lavaPercentage;
 
         [Header("Sizes")]
         public float platformWidth;
         public float platformLength;
         public float platformHeight;
+
+        [Header("Prefabs")]
+        public GameObject[] regularPlatforms;
     }
 }

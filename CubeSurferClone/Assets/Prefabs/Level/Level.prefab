@@ -44,10 +44,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generationSettings:
-    walls: 0
-    turns: 0
-    lavaLakes: 0
     platformsAmount: 5
-    platformWidth: 0
-    platformLength: 0
+    walls: 0
+    turns: 1
+    turnsPercentage: 0.2
+    lavaLakes: 0
+    lavaPercentage: 0.2
+    platformWidth: 5
+    platformLength: 10
     platformHeight: 1

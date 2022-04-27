@@ -11,7 +11,6 @@ namespace CubeSurfer.EcsSystem.Level
         public void Init()
         {
             _level.CreateEntityIn(_world);
-            Debug.Log("Level created");
         }
     }
 }
