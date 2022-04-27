@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CubeSurfer.EcsComponent
 {
-    public struct RigidBodyRef
+    public struct RigidbodyRef
     {
         public Rigidbody Rigidbody;
     }

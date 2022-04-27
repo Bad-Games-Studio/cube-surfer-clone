@@ -1,15 +1,15 @@
 using Leopotam.Ecs;
 
-namespace CubeSurfer.EcsSystem.Level
+namespace CubeSurfer.EcsSystem.Player
 {
     public class InitSystem : IEcsInitSystem
     {
-        private EcsEntity.Level _level;
+        private EcsEntity.Player _player;
         private EcsWorld _world;
     
         public void Init()
         {
-            _level.CreateEntityIn(_world);
+            _player.CreateEntityIn(_world);
         }
     }
 }

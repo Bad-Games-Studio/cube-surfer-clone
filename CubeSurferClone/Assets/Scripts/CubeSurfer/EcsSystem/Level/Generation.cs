@@ -18,15 +18,12 @@ namespace CubeSurfer.EcsSystem.Level
         private int _lavaLakesAmount;
         private int _regularPlatformsAmount;
 
-        private Vector3 _platformScale;
-
         public void Init()
         {
             ref var settings = ref _level.GenerationSettings;
             
             CalculatePlatformAmounts(ref settings);
-            CalculateScales(ref settings);
-            
+
             GenerateLevel(ref settings);
         }
 
@@ -53,20 +50,10 @@ namespace CubeSurfer.EcsSystem.Level
             _regularPlatformsAmount = settings.platformsAmount - _turnsAmount - _lavaLakesAmount;
         }
 
-        private void CalculateScales(ref GenerationSettings settings)
-        {
-            _platformScale = new Vector3
-            {
-                x = settings.platformWidth,
-                y = settings.platformHeight,
-                z = settings.platformLength
-            };
-        }
-
         private void GenerateLevel(ref GenerationSettings settings)
         {
-            var previousObject = CreatePlatform(settings.regularPlatforms[0], null);
-            for (var i = 1; i < _regularPlatformsAmount; ++i)
+            var previousObject = CreatePlatform(settings.startPlatform, null);
+            for (var i = 0; i < _regularPlatformsAmount; ++i)
             {
                 var p = i % 3;
                 previousObject = CreatePlatform(settings.regularPlatforms[p], previousObject);

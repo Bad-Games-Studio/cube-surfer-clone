@@ -21,12 +21,8 @@ namespace CubeSurfer.EcsComponent.Level
         public bool lavaLakes;
         [Range(MinPercentage, MaxPercentage)] public float lavaPercentage;
 
-        [Header("Sizes")]
-        public float platformWidth;
-        public float platformLength;
-        public float platformHeight;
-
-        [Header("Prefabs")]
+        [Header("Level parts")]
+        public GameObject startPlatform;
         public GameObject[] regularPlatforms;
     }
 }
