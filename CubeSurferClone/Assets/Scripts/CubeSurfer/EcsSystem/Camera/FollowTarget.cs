@@ -1,3 +1,4 @@
+using CubeSurfer.Util;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -25,23 +26,9 @@ namespace CubeSurfer.EcsSystem.Camera
         private static void HandleMovement(Transform camera, ref EcsComponent.Camera.Settings settings)
         {
             var target = settings.target;
-            var targetPosition = target.position;
 
-            var xAxisLocal = target.right;
-            var yAxisLocal = target.up;
-            var zAxisLocal = target.forward;
-
-            var cameraPositionOffset =
-                settings.offset.x * xAxisLocal +
-                settings.offset.y * yAxisLocal +
-                settings.offset.z * zAxisLocal;
-            var cameraPosition = targetPosition + cameraPositionOffset;
-                
-            var lookAtOffset =
-                settings.lookAtOffset.x * xAxisLocal +
-                settings.lookAtOffset.y * yAxisLocal +
-                settings.lookAtOffset.z * zAxisLocal;
-            var lookAtPoint = targetPosition + lookAtOffset;
+            var cameraPosition = MovementMagic.NewPositionFromOffset(target, settings.offset);
+            var lookAtPoint    = MovementMagic.NewPositionFromOffset(target, settings.lookAtOffset);
 
             camera.position = cameraPosition;
             camera.rotation = Quaternion.LookRotation(lookAtPoint - cameraPosition);

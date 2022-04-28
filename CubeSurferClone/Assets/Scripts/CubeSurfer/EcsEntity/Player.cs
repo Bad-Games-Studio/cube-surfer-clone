@@ -7,21 +7,36 @@ namespace CubeSurfer.EcsEntity
 {
     public class Player : MonoBehaviour, IEcsWorldEntity
     {
-        [SerializeField] private EcsComponent.Player.Movement movement;
+        [SerializeField] private EcsComponent.Player.ForwardMovement forwardMovement;
         
+        private Leopotam.Ecs.EcsEntity _entity;
+
         public void CreateEntityIn(EcsWorld world)
         {
-            var entity = world.NewEntity();
-            entity.Get<EcsComponent.Player.Tag>();
+            _entity = world.NewEntity();
+            _entity.Get<EcsComponent.Player.Tag>();
 
-            ref var transformRef = ref entity.Get<EcsComponent.TransformRef>();
+            ref var transformRef = ref _entity.Get<EcsComponent.TransformRef>();
             transformRef.Transform = transform;
 
-            ref var rigidBodyRef = ref entity.Get<EcsComponent.RigidbodyRef>();
-            rigidBodyRef.Rigidbody = transform.GetComponent<Rigidbody>();
+            ref var forwardMovementRef = ref _entity.Get<EcsComponent.Player.ForwardMovement>();
+            forwardMovementRef = forwardMovement;
+        }
 
-            ref var mov = ref entity.Get<EcsComponent.Player.Movement>();
-            mov = movement;
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.transform.TryGetComponent(out CollisionTag.Level.CurvedPlatform _))
+            {
+                
+            }
+        }
+
+        private void OnCollisionExit(Collision other)
+        {
+            if (other.transform.TryGetComponent(out CollisionTag.Level.CurvedPlatform _))
+            {
+                
+            }
         }
     }
 }

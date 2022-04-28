@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3121809682720946397}
   - component: {fileID: 6340818625641550258}
   - component: {fileID: 8039884880576063106}
+  - component: {fileID: 765487503567369615}
   m_Layer: 0
   m_Name: Curved Platform (Right)
   m_TagString: Untagged
@@ -109,6 +110,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c994b85393071624ba04bcb046b88dcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &765487503567369615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3329887065012773304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b5427b756844ffbba935e78a32db43d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4019048215826978001
