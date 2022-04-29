@@ -248,8 +248,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea65dbadc969e14a96a2e455413c638, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angularSpeed: 1
-  circleRad: 5
+  speed: 1
+  radius: 3
+  center: {x: 0, y: 0, z: 0}
 --- !u!65 &628431552
 BoxCollider:
   m_ObjectHideFlags: 0

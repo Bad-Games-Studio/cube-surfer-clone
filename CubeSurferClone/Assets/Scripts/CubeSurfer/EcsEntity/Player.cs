@@ -25,17 +25,27 @@ namespace CubeSurfer.EcsEntity
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.transform.TryGetComponent(out CollisionTag.Level.CurvedPlatform _))
-            {
-                
-            }
+            Debug.Log("Pain");
         }
 
         private void OnCollisionExit(Collision other)
         {
-            if (other.transform.TryGetComponent(out CollisionTag.Level.CurvedPlatform _))
+            Debug.Log("wtf");
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("mogus");
+            if (other.TryGetComponent(out CircularMovement.ZoneTrigger _))
             {
-                
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.TryGetComponent(out CircularMovement.ZoneTrigger _))
+            {
+                Debug.Log("sus");
             }
         }
     }

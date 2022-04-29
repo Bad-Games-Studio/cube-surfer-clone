@@ -4,20 +4,44 @@ using UnityEngine;
 // https://forum.unity.com/threads/circular-movement.572797/
 public class CircleMovement : MonoBehaviour
 {
-    public float angularSpeed = 1f;
-    public float circleRad = 1f;
- 
-    private Vector3 _center;
+    public float speed;
+    public float radius;
+    public Vector3 center;
+
+    private float _angularSpeed;
     private float _currentAngle;
  
     private void Start ()
     {
-        _center = transform.position;
+        center = transform.position;
+        
+        RecalculatePositions();
     }
- 
+
     private void Update ()
     {
-        _currentAngle -= angularSpeed * Time.deltaTime;
+        if (!Input.GetKey(KeyCode.Mouse0))
+        {
+            return;
+        }
+        
+        RecalculatePositions();
+    }
+
+    private void RecalculatePositions()
+    {
+        _angularSpeed = speed / radius;
+
+        var deltaAngle = _angularSpeed * Time.deltaTime;
+        if (_currentAngle + deltaAngle >= Mathf.PI / 2)
+        {
+            _currentAngle = Mathf.PI / 2;
+        }
+        else
+        {
+            _currentAngle += deltaAngle;
+        }
+        
         var offset = new Vector3
         {
             x = Mathf.Sin(_currentAngle),
@@ -28,7 +52,7 @@ public class CircleMovement : MonoBehaviour
         var euler = transform.rotation.eulerAngles;
         euler.y = _currentAngle * Mathf.Rad2Deg;
         
-        transform.position = _center + circleRad * offset;
+        transform.position = center + radius * offset;
         transform.rotation = Quaternion.Euler(euler);
     }
 }
