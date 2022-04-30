@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CubeSurfer.CircularMovement
+namespace CubeSurfer.PlatformMovement
 {
     public class CircleCenterTag : MonoBehaviour
     {

@@ -1,4 +1,4 @@
-using System;
+using CubeSurfer.PlatformMovement;
 using CubeSurfer.Util;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -23,30 +23,36 @@ namespace CubeSurfer.EcsEntity
             forwardMovementRef = forwardMovement;
         }
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            Debug.Log("Pain");
-        }
-
-        private void OnCollisionExit(Collision other)
-        {
-            Debug.Log("wtf");
-        }
-
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("mogus");
-            if (other.TryGetComponent(out CircularMovement.ZoneTrigger _))
+            if (other.TryGetComponent(out TurningZoneTrigger turningZone))
             {
+                StartCircularMovement(turningZone.GetMovementData());
+            }
+
+            if (other.TryGetComponent(out StraightZoneTrigger straightZone))
+            {
+                StopCircularMovement();
             }
         }
 
-        private void OnTriggerExit(Collider other)
+        private void StartCircularMovement(EcsComponent.Player.CircularMovement circularMovement)
         {
-            if (other.TryGetComponent(out CircularMovement.ZoneTrigger _))
-            {
-                Debug.Log("sus");
-            }
+            circularMovement.speed = forwardMovement.speed;
+            circularMovement.startAngle = transform.rotation.eulerAngles.y;
+
+            _entity.Del<EcsComponent.Player.ForwardMovement>();
+
+            ref var circularMovementRef = ref _entity.Get<EcsComponent.Player.CircularMovement>();
+            circularMovementRef = circularMovement;
+        }
+
+        private void StopCircularMovement()
+        {
+            _entity.Del<EcsComponent.Player.CircularMovement>();
+            
+            ref var forwardMovementRef = ref _entity.Get<EcsComponent.Player.ForwardMovement>();
+            forwardMovementRef = forwardMovement;
         }
     }
 }

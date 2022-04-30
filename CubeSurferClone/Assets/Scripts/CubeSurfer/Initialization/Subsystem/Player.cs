@@ -13,7 +13,9 @@ namespace CubeSurfer.Initialization.Subsystem
             systems.Add(new EcsSystem.Player.InitSystem())
                 .Inject(player);
 
-            systems.Add(new EcsSystem.Player.Movement());
+            systems
+                .Add(new EcsSystem.Player.Movement())
+                .Add(new EcsSystem.Player.CircularMovement());
         }
     }
 }
