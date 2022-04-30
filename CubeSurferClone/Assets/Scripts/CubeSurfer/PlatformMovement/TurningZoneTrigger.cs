@@ -1,3 +1,4 @@
+using System;
 using CubeSurfer.Snapping;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -6,10 +7,13 @@ namespace CubeSurfer.PlatformMovement
 {
     public class TurningZoneTrigger : MonoBehaviour
     {
+        [SerializeField] private TurnDirection turn;
+        
         private Transform _circleCenterObject;
         private Transform _parent;
 
-        private const float RadiusPercentageFromPlatformSize = 0.5f;
+        private const float RadiusPercentageFromPlatformSize = 1.0f;
+        private const float SingleFullTurnAngle = 90;
 
         private void Awake()
         {
@@ -27,7 +31,9 @@ namespace CubeSurfer.PlatformMovement
                 speed = 0,
                 circleRadius = _parent.localScale.x * RadiusPercentageFromPlatformSize,
                 circleCenter = _circleCenterObject.position,
-                currentAngle = 0
+                circleRotation = _circleCenterObject.rotation,
+                currentAngle = 0,
+                turnDirection = turn,
             };
         }
     }

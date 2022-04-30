@@ -24,11 +24,9 @@ namespace CubeSurfer.EcsSystem.Player
         }
 
         private static void HandlePlayerMovement(
-            Transform transform, ref EcsComponent.Player.ForwardMovement forwardMovement)
+            Transform player, ref EcsComponent.Player.ForwardMovement forwardMovement)
         {
-            var offset = Time.deltaTime * forwardMovement.speed * transform.forward;
-
-            transform.position = MovementMagic.NewPositionFromOffset(transform, offset);
+            player.position += Time.deltaTime * forwardMovement.speed * player.forward;
         }
     }
 }

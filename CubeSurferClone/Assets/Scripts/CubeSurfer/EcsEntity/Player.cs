@@ -29,17 +29,12 @@ namespace CubeSurfer.EcsEntity
             {
                 StartCircularMovement(turningZone.GetMovementData());
             }
-
-            if (other.TryGetComponent(out StraightZoneTrigger straightZone))
-            {
-                StopCircularMovement();
-            }
         }
 
-        private void StartCircularMovement(EcsComponent.Player.CircularMovement circularMovement)
+        public void StartCircularMovement(EcsComponent.Player.CircularMovement circularMovement)
         {
             circularMovement.speed = forwardMovement.speed;
-            circularMovement.startAngle = transform.rotation.eulerAngles.y;
+            circularMovement.StartRotation = transform.rotation;
 
             _entity.Del<EcsComponent.Player.ForwardMovement>();
 
@@ -47,7 +42,7 @@ namespace CubeSurfer.EcsEntity
             circularMovementRef = circularMovement;
         }
 
-        private void StopCircularMovement()
+        public void StopCircularMovement()
         {
             _entity.Del<EcsComponent.Player.CircularMovement>();
             
