@@ -1,12 +1,11 @@
-using CubeSurfer.EcsEntity;
 using UnityEngine;
 
 namespace CubeSurfer.Snapping
 {
-    public class SnappableObject : MonoBehaviour
+    public class SnapPointsHolder : MonoBehaviour
     {
-        public SnapPoint BackSnapPoint { get; private set; }
-        public SnapPoint FrontSnapPoint { get; private set; }
+        private SnapPoint BackSnapPoint { get; set; }
+        private SnapPoint FrontSnapPoint { get; set; }
 
         private void Awake()
         {
@@ -18,7 +17,7 @@ namespace CubeSurfer.Snapping
         /// Snaps current object's Back Snap Point to other object's Front Snap Point.
         /// </summary>
         /// <param name="other"></param>
-        public void SnapTo(SnappableObject other)
+        public void SnapTo(SnapPointsHolder other)
         {
             var t = transform;
             t.rotation = other.FrontSnapPoint.Rotation;

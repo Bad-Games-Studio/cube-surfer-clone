@@ -1,12 +1,9 @@
-using System;
 using CubeSurfer.EcsComponent.Level;
 using CubeSurfer.Snapping;
 using JetBrains.Annotations;
 using Leopotam.Ecs;
 using Unity.Mathematics;
 using UnityEngine;
-using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace CubeSurfer.EcsSystem.Level
 {
@@ -71,8 +68,8 @@ namespace CubeSurfer.EcsSystem.Level
                 return platform;
             }
 
-            var source = platform.GetComponent<SnappableObject>();
-            var destination = previousPlatform.GetComponent<SnappableObject>();
+            var source = platform.GetComponent<SnapPointsHolder>();
+            var destination = previousPlatform.GetComponent<SnapPointsHolder>();
             source.SnapTo(destination);
 
             return platform;

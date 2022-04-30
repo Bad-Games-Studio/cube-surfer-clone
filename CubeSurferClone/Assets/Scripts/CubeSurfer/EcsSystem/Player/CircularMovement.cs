@@ -1,7 +1,5 @@
-using System;
 using CubeSurfer.PlatformMovement;
 using Leopotam.Ecs;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace CubeSurfer.EcsSystem.Player
@@ -48,13 +46,13 @@ namespace CubeSurfer.EcsSystem.Player
                 {
                     x = Mathf.Cos(turningMovement.CurrentAngle),
                     y = 0,
-                    z = Mathf.Sin(turningMovement.CurrentAngle),
+                    z = Mathf.Sin(turningMovement.CurrentAngle)
                 },
                 TurnDirection.Right => new Vector3
                 {
                     x = -Mathf.Cos(turningMovement.CurrentAngle),
                     y = 0,
-                    z = Mathf.Sin(turningMovement.CurrentAngle),
+                    z = Mathf.Sin(turningMovement.CurrentAngle)
                 },
                 _ => Vector3.zero
             };

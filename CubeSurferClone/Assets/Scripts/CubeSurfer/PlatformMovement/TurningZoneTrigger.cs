@@ -1,4 +1,3 @@
-using System;
 using CubeSurfer.Snapping;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -15,7 +14,7 @@ namespace CubeSurfer.PlatformMovement
         private void Awake()
         {
             _circleCenterObject = GetComponentInChildren<CircleCenterTag>().transform;
-            _parent = GetComponentInParent<SnappableObject>().transform;
+            _parent = GetComponentInParent<SnapPointsHolder>().transform;
 
             var scale = _parent.localScale;
             Assert.IsTrue(Mathf.Approximately(scale.x, scale.z));
@@ -29,7 +28,7 @@ namespace CubeSurfer.PlatformMovement
                 circleRadius = _parent.localScale.x,
                 circleCenter = _circleCenterObject.position,
                 globalRotation = _circleCenterObject.rotation,
-                TurnDirection = turn,
+                TurnDirection = turn
             };
         }
     }
