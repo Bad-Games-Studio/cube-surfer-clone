@@ -1,3 +1,4 @@
+using CubeSurfer.Snapping;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -13,7 +14,7 @@ namespace CubeSurfer.PlatformMovement
         private void Awake()
         {
             _circleCenterObject = GetComponentInChildren<CircleCenterTag>().transform;
-            _parent = transform.parent;
+            _parent = GetComponentInParent<SnappableObject>().transform;
 
             var scale = _parent.localScale;
             Assert.IsTrue(Mathf.Approximately(scale.x, scale.z));
