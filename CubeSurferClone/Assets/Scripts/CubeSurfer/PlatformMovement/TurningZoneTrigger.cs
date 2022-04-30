@@ -11,10 +11,7 @@ namespace CubeSurfer.PlatformMovement
         
         private Transform _circleCenterObject;
         private Transform _parent;
-
-        private const float RadiusPercentageFromPlatformSize = 1.0f;
-        private const float SingleFullTurnAngle = 90;
-
+        
         private void Awake()
         {
             _circleCenterObject = GetComponentInChildren<CircleCenterTag>().transform;
@@ -24,16 +21,15 @@ namespace CubeSurfer.PlatformMovement
             Assert.IsTrue(Mathf.Approximately(scale.x, scale.z));
         }
 
-        public EcsComponent.Player.CircularMovement GetMovementData()
+        public EcsComponent.Player.TurningMovement GetMovementData()
         {
-            return new EcsComponent.Player.CircularMovement
+            return new EcsComponent.Player.TurningMovement
             {
-                speed = 0,
-                circleRadius = _parent.localScale.x * RadiusPercentageFromPlatformSize,
+                CurrentAngle = 0,
+                circleRadius = _parent.localScale.x,
                 circleCenter = _circleCenterObject.position,
-                circleRotation = _circleCenterObject.rotation,
-                currentAngle = 0,
-                turnDirection = turn,
+                globalRotation = _circleCenterObject.rotation,
+                TurnDirection = turn,
             };
         }
     }

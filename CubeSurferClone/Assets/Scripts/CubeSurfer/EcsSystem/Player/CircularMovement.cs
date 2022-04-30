@@ -11,7 +11,7 @@ namespace CubeSurfer.EcsSystem.Player
         private EcsFilter<
             EcsComponent.Player.Tag,
             EcsComponent.TransformRef,
-            EcsComponent.Player.CircularMovement> _filter;
+            EcsComponent.Player.TurningMovement> _filter;
         
         public void Run()
         {
@@ -19,7 +19,7 @@ namespace CubeSurfer.EcsSystem.Player
             {
                 var entity = _filter.GetEntity(i);
                 ref var transformRef = ref entity.Get<EcsComponent.TransformRef>();
-                ref var circularMovementRef = ref entity.Get<EcsComponent.Player.CircularMovement>();
+                ref var circularMovementRef = ref entity.Get<EcsComponent.Player.TurningMovement>();
                 
                 HandleCircularMovement(transformRef.Transform, ref circularMovementRef);
                 ReplaceComponentIfDone(transformRef.Transform, ref circularMovementRef);
@@ -27,47 +27,43 @@ namespace CubeSurfer.EcsSystem.Player
         }
 
         private static void HandleCircularMovement(
-            Transform player, ref EcsComponent.Player.CircularMovement circularMovement)
+            Transform player, ref EcsComponent.Player.TurningMovement turningMovement)
         {
-            var angularVelocity = circularMovement.speed / circularMovement.circleRadius;
+            var angularVelocity = turningMovement.speed / turningMovement.circleRadius;
             var deltaAngle = Time.deltaTime * angularVelocity;
             
-            circularMovement.currentAngle += deltaAngle;
-            if (circularMovement.currentAngle > circularMovement.MaxAngle)
-            {
-                circularMovement.currentAngle = circularMovement.MaxAngle;
-            }
+            turningMovement.CurrentAngle += deltaAngle;
             
-            var offset = GetPositionOnCircle(ref circularMovement);
+            var circlePosition = GetPositionOnCircle(ref turningMovement);
             
-            player.position = circularMovement.circleCenter + circularMovement.circleRadius * offset;
-            player.rotation = circularMovement.InterpolatedRotation;
+            player.position = turningMovement.circleCenter + turningMovement.circleRadius * circlePosition;
+            player.rotation = turningMovement.InterpolatedRotation;
         }
 
-        private static Vector3 GetPositionOnCircle(ref EcsComponent.Player.CircularMovement circularMovement)
+        private static Vector3 GetPositionOnCircle(ref EcsComponent.Player.TurningMovement turningMovement)
         {
-            return circularMovement.circleRotation * circularMovement.turnDirection switch
+            return turningMovement.globalRotation * turningMovement.TurnDirection switch
             {
                 TurnDirection.Left => new Vector3
                 {
-                    x = Mathf.Cos(circularMovement.currentAngle),
+                    x = Mathf.Cos(turningMovement.CurrentAngle),
                     y = 0,
-                    z = Mathf.Sin(circularMovement.currentAngle),
+                    z = Mathf.Sin(turningMovement.CurrentAngle),
                 },
                 TurnDirection.Right => new Vector3
                 {
-                    x = -Mathf.Cos(circularMovement.currentAngle),
+                    x = -Mathf.Cos(turningMovement.CurrentAngle),
                     y = 0,
-                    z = Mathf.Sin(circularMovement.currentAngle),
+                    z = Mathf.Sin(turningMovement.CurrentAngle),
                 },
                 _ => Vector3.zero
             };
         }
         
         private static void ReplaceComponentIfDone(
-            Transform player, ref EcsComponent.Player.CircularMovement circularMovement)
+            Transform player, ref EcsComponent.Player.TurningMovement turningMovement)
         {
-            if (circularMovement.Progress < 1.0f)
+            if (turningMovement.Progress < 1.0f)
             {
                 return;
             }

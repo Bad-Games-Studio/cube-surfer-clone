@@ -483,7 +483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forwardMovement:
-    speed: 3
+    speed: 5
 --- !u!65 &1027129303
 BoxCollider:
   m_ObjectHideFlags: 0

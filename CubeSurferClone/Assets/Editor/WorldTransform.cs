@@ -6,7 +6,7 @@ using UnityEngine;
 
 // https://forum.unity.com/threads/editor-display-global-position-of-a-child-object-in-a-prefab.1156487/
 
-namespace WorldTransform.Editor
+namespace Editor
 {
     // Roger Cabo 2020 V1.0. Transform component extension.
     // Display real world transform values for child objects automatically.

@@ -31,20 +31,20 @@ namespace CubeSurfer.EcsEntity
             }
         }
 
-        public void StartCircularMovement(EcsComponent.Player.CircularMovement circularMovement)
+        public void StartCircularMovement(EcsComponent.Player.TurningMovement turningMovement)
         {
-            circularMovement.speed = forwardMovement.speed;
-            circularMovement.StartRotation = transform.rotation;
+            turningMovement.speed = forwardMovement.speed;
+            turningMovement.StartRotation = transform.rotation;
 
             _entity.Del<EcsComponent.Player.ForwardMovement>();
 
-            ref var circularMovementRef = ref _entity.Get<EcsComponent.Player.CircularMovement>();
-            circularMovementRef = circularMovement;
+            ref var circularMovementRef = ref _entity.Get<EcsComponent.Player.TurningMovement>();
+            circularMovementRef = turningMovement;
         }
 
         public void StopCircularMovement()
         {
-            _entity.Del<EcsComponent.Player.CircularMovement>();
+            _entity.Del<EcsComponent.Player.TurningMovement>();
             
             ref var forwardMovementRef = ref _entity.Get<EcsComponent.Player.ForwardMovement>();
             forwardMovementRef = forwardMovement;
