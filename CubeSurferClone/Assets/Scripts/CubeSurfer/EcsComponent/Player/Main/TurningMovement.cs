@@ -2,7 +2,7 @@ using System;
 using CubeSurfer.PlatformMovement;
 using UnityEngine;
 
-namespace CubeSurfer.EcsComponent.Player
+namespace CubeSurfer.EcsComponent.Player.Main
 {
     [Serializable]
     public struct TurningMovement

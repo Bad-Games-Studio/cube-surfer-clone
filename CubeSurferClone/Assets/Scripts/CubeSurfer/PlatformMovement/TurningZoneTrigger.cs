@@ -1,3 +1,4 @@
+using CubeSurfer.EcsComponent.Player.Main;
 using CubeSurfer.Snapping;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -20,9 +21,9 @@ namespace CubeSurfer.PlatformMovement
             Assert.IsTrue(Mathf.Approximately(scale.x, scale.z));
         }
 
-        public EcsComponent.Player.TurningMovement GetMovementData()
+        public TurningMovement GetMovementData()
         {
-            return new EcsComponent.Player.TurningMovement
+            return new TurningMovement
             {
                 CurrentAngle = 0,
                 circleRadius = _parent.localScale.x,

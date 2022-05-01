@@ -1,4 +1,4 @@
-namespace CubeSurfer.EcsComponent.Player
+namespace CubeSurfer.EcsComponent.Player.Main
 {
     public struct Tag
     {

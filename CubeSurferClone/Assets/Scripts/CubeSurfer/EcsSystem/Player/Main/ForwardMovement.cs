@@ -1,14 +1,14 @@
 using Leopotam.Ecs;
 using UnityEngine;
 
-namespace CubeSurfer.EcsSystem.Player
+namespace CubeSurfer.EcsSystem.Player.Main
 {
-    public class Movement : IEcsRunSystem
+    public class ForwardMovement : IEcsRunSystem
     {
         private EcsFilter<
-            EcsComponent.Player.Tag,
+            EcsComponent.Player.Main.Tag,
             EcsComponent.TransformRef,
-            EcsComponent.Player.ForwardMovement> _filter;
+            EcsComponent.Player.Main.ForwardMovement> _filter;
         
         public void Run()
         {
@@ -16,14 +16,14 @@ namespace CubeSurfer.EcsSystem.Player
             {
                 ref var entity = ref _filter.GetEntity(i);
                 ref var transformRef = ref entity.Get<EcsComponent.TransformRef>();
-                ref var movement = ref entity.Get<EcsComponent.Player.ForwardMovement>();
+                ref var movement = ref entity.Get<EcsComponent.Player.Main.ForwardMovement>();
                 
                 HandlePlayerMovement(transformRef.Transform, ref movement);
             }
         }
 
         private static void HandlePlayerMovement(
-            Transform player, ref EcsComponent.Player.ForwardMovement forwardMovement)
+            Transform player, ref EcsComponent.Player.Main.ForwardMovement forwardMovement)
         {
             player.position += Time.deltaTime * forwardMovement.speed * player.forward;
         }

@@ -2,14 +2,14 @@ using CubeSurfer.PlatformMovement;
 using Leopotam.Ecs;
 using UnityEngine;
 
-namespace CubeSurfer.EcsSystem.Player
+namespace CubeSurfer.EcsSystem.Player.Main
 {
     public class CircularMovement : IEcsRunSystem
     {
         private EcsFilter<
-            EcsComponent.Player.Tag,
+            EcsComponent.Player.Main.Tag,
             EcsComponent.TransformRef,
-            EcsComponent.Player.TurningMovement> _filter;
+            EcsComponent.Player.Main.TurningMovement> _filter;
         
         public void Run()
         {
@@ -17,7 +17,7 @@ namespace CubeSurfer.EcsSystem.Player
             {
                 var entity = _filter.GetEntity(i);
                 ref var transformRef = ref entity.Get<EcsComponent.TransformRef>();
-                ref var circularMovementRef = ref entity.Get<EcsComponent.Player.TurningMovement>();
+                ref var circularMovementRef = ref entity.Get<EcsComponent.Player.Main.TurningMovement>();
                 
                 HandleCircularMovement(transformRef.Transform, ref circularMovementRef);
                 ReplaceComponentIfDone(transformRef.Transform, ref circularMovementRef);
@@ -25,7 +25,7 @@ namespace CubeSurfer.EcsSystem.Player
         }
 
         private static void HandleCircularMovement(
-            Transform player, ref EcsComponent.Player.TurningMovement turningMovement)
+            Transform player, ref EcsComponent.Player.Main.TurningMovement turningMovement)
         {
             var angularVelocity = turningMovement.speed / turningMovement.circleRadius;
             var deltaAngle = Time.deltaTime * angularVelocity;
@@ -38,7 +38,7 @@ namespace CubeSurfer.EcsSystem.Player
             player.rotation = turningMovement.InterpolatedRotation;
         }
 
-        private static Vector3 GetPositionOnCircle(ref EcsComponent.Player.TurningMovement turningMovement)
+        private static Vector3 GetPositionOnCircle(ref EcsComponent.Player.Main.TurningMovement turningMovement)
         {
             return turningMovement.globalRotation * turningMovement.TurnDirection switch
             {
@@ -59,14 +59,14 @@ namespace CubeSurfer.EcsSystem.Player
         }
         
         private static void ReplaceComponentIfDone(
-            Transform player, ref EcsComponent.Player.TurningMovement turningMovement)
+            Transform player, ref EcsComponent.Player.Main.TurningMovement turningMovement)
         {
             if (turningMovement.Progress < 1.0f)
             {
                 return;
             }
 
-            var playerEntity = player.GetComponent<EcsEntity.Player>();
+            var playerEntity = player.GetComponent<EcsEntity.Player.Main>();
             playerEntity.StopCircularMovement();
         }
     }

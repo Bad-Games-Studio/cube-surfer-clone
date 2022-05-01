@@ -1,6 +1,6 @@
 using System;
 
-namespace CubeSurfer.EcsComponent.Player
+namespace CubeSurfer.EcsComponent.Player.Main
 {
     [Serializable]
     public struct ForwardMovement

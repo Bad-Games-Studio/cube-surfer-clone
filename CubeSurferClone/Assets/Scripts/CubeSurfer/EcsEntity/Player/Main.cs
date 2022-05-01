@@ -3,23 +3,23 @@ using CubeSurfer.Util;
 using Leopotam.Ecs;
 using UnityEngine;
 
-namespace CubeSurfer.EcsEntity
+namespace CubeSurfer.EcsEntity.Player
 {
-    public class Player : MonoBehaviour, IEcsWorldEntity
+    public class Main : MonoBehaviour, IEcsWorldEntity
     {
-        [SerializeField] private EcsComponent.Player.ForwardMovement forwardMovement;
+        [SerializeField] private EcsComponent.Player.Main.ForwardMovement forwardMovement;
         
         private Leopotam.Ecs.EcsEntity _entity;
 
         public void CreateEntityIn(EcsWorld world)
         {
             _entity = world.NewEntity();
-            _entity.Get<EcsComponent.Player.Tag>();
+            _entity.Get<EcsComponent.Player.Main.Tag>();
 
             ref var transformRef = ref _entity.Get<EcsComponent.TransformRef>();
             transformRef.Transform = transform;
 
-            ref var forwardMovementRef = ref _entity.Get<EcsComponent.Player.ForwardMovement>();
+            ref var forwardMovementRef = ref _entity.Get<EcsComponent.Player.Main.ForwardMovement>();
             forwardMovementRef = forwardMovement;
         }
 
@@ -31,22 +31,22 @@ namespace CubeSurfer.EcsEntity
             }
         }
 
-        public void StartCircularMovement(EcsComponent.Player.TurningMovement turningMovement)
+        public void StartCircularMovement(EcsComponent.Player.Main.TurningMovement turningMovement)
         {
             turningMovement.speed = forwardMovement.speed;
             turningMovement.StartRotation = transform.rotation;
 
-            _entity.Del<EcsComponent.Player.ForwardMovement>();
+            _entity.Del<EcsComponent.Player.Main.ForwardMovement>();
 
-            ref var circularMovementRef = ref _entity.Get<EcsComponent.Player.TurningMovement>();
+            ref var circularMovementRef = ref _entity.Get<EcsComponent.Player.Main.TurningMovement>();
             circularMovementRef = turningMovement;
         }
 
         public void StopCircularMovement()
         {
-            _entity.Del<EcsComponent.Player.TurningMovement>();
+            _entity.Del<EcsComponent.Player.Main.TurningMovement>();
             
-            ref var forwardMovementRef = ref _entity.Get<EcsComponent.Player.ForwardMovement>();
+            ref var forwardMovementRef = ref _entity.Get<EcsComponent.Player.Main.ForwardMovement>();
             forwardMovementRef = forwardMovement;
         }
     }
