@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "f237756b2a256e112f6ae2eb314fae9682c05310"
     },
+    "com.leopotam.ecs-unityintegration": {
+      "version": "https://github.com/Leopotam/ecs-unityintegration.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "16f527e942e4c03efabff357d718c4ba0092a477"
+    },
     "com.unity.collab-proxy": {
       "version": "1.15.16",
       "depth": 0,

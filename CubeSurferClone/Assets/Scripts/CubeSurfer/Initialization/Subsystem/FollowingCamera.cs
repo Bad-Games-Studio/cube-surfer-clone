@@ -8,7 +8,7 @@ namespace CubeSurfer.Initialization.Subsystem
     {
         [SerializeField] private EcsEntity.FollowingCamera followingCamera;
         
-        public void AddSystemsTo(EcsSystems systems)
+        public void AddSystemsTo(EcsSystems systems, EcsSystems fixedUpdateSystems)
         {
             systems.Add(new EcsSystem.Camera.InitSystem())
                 .Inject(followingCamera);

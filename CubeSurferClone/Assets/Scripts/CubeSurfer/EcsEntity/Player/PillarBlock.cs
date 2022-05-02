@@ -1,34 +1,29 @@
 using System;
 using CubeSurfer.CollisionTag;
+using CubeSurfer.Util;
+using Leopotam.Ecs;
 using UnityEngine;
 
 namespace CubeSurfer.EcsEntity.Player
 {
-    public class PillarBlock : MonoBehaviour
+    public class PillarBlock : MonoBehaviour, IEcsWorldEntity
     {
-        private CubesPillar _pillar;
-        private Transform _pillarTransform;
-        private Transform _myTransform;
+        private Leopotam.Ecs.EcsEntity _entity;
+
+        private const float VerticalPositionEpsilon = 0.5f;
         
-        private const float VerticalPositionEpsilon = 0.05f;
-
-        private void Start()
+        public void CreateEntityIn(EcsWorld world)
         {
-            _pillarTransform = transform.parent;
-            _pillar = _pillarTransform.GetComponent<CubesPillar>();
+            _entity = world.NewEntity();
+            _entity.Get<EcsComponent.Player.PillarBlock.Tag>();
 
-            _myTransform = transform;
+            ref var transformRef = ref _entity.Get<EcsComponent.TransformRef>();
+            transformRef.Transform = transform;
         }
 
-        private void FixedUpdate()
+        private void OnDestroy()
         {
-            var pillarPosition = _pillarTransform.position;
-            _myTransform.position = new Vector3
-            {
-                x = pillarPosition.x,
-                y = _myTransform.position.y,
-                z = pillarPosition.z
-            };
+            _entity.Destroy();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -37,45 +32,27 @@ namespace CubeSurfer.EcsEntity.Player
             {
                 return;
             }
-
-            if (block.wasTouched)
-            {
-                return;
-            }
-
-            block.wasTouched = true;
-            Destroy(other.gameObject);
             
-            _pillar.AddPillarBlock();
+            ref var blockCollectedEvent = ref _entity.Get<EcsComponent.Player.PillarBlock.BlockCollectedEvent>();
+            blockCollectedEvent.block = block;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (!collision.transform.TryGetComponent(out WallBlock wallBlock))
+            var otherObject = collision.transform;
+            if (!otherObject.TryGetComponent(out WallBlock _))
             {
                 return;
             }
             
-            var wallBlockPosition = wallBlock.transform.position;
-            var isSameYPosition = Mathf.Abs(_myTransform.position.y - wallBlockPosition.y) < VerticalPositionEpsilon;
+            var isSameYPosition = Mathf.Abs(transform.position.y - otherObject.position.y) < VerticalPositionEpsilon;
             if (!isSameYPosition)
             {
                 return;
             }
-            
-            LoseCube();
-        }
 
-        private void LoseCube()
-        {
-            if (_myTransform.parent != null)
-            {
-                _pillar.DecrementBlocksCounter();
-            }
-            _myTransform.parent = null;
-            
-            Destroy(this);
-            Destroy(_myTransform.gameObject, 3);
+            ref var collisionEvent = ref _entity.Get<EcsComponent.Player.PillarBlock.WallCollisionEvent>();
+            collisionEvent.wall = otherObject;
         }
     }
 }

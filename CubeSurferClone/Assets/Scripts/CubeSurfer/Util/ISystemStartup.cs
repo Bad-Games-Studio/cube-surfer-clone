@@ -4,6 +4,6 @@ namespace CubeSurfer.Util
 {
     public interface ISystemStartup
     {
-        public void AddSystemsTo(EcsSystems systems);
+        public void AddSystemsTo(EcsSystems systems, EcsSystems fixedUpdateSystems);
     }
 }

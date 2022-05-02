@@ -13,15 +13,18 @@ namespace CubeSurfer.EcsEntity.Player
         private int _blocksAmount;
 
         private Leopotam.Ecs.EcsEntity _entity;
+        private EcsWorld _ecsWorld;
 
-        private void Awake()
+        private void Start()
         {
-            _blocksAmount = 1;
+            _blocksAmount = 0;
+            AddPillarBlock();
         }
 
         public void CreateEntityIn(EcsWorld world)
         {
-            _entity = world.NewEntity();
+            _ecsWorld = world;
+            _entity = _ecsWorld.NewEntity();
             _entity.Get<EcsComponent.Player.CubesPillar.Tag>();
 
             ref var transformRef = ref _entity.Get<EcsComponent.TransformRef>();
@@ -40,6 +43,9 @@ namespace CubeSurfer.EcsEntity.Player
             var instance = Instantiate(pillarBlockPrefab, position, t.localRotation);
             instance.transform.parent = transform;
             
+            var pillarBlock = instance.GetComponent<PillarBlock>();
+            pillarBlock.CreateEntityIn(_ecsWorld);
+
             ++_blocksAmount;
         }
 
