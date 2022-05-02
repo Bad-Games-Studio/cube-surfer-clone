@@ -581,7 +581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
       propertyPath: generationSettings.regularPlatforms.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
       propertyPath: generationSettings.regularPlatforms.Array.data[0]
@@ -594,11 +594,11 @@ PrefabInstance:
     - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
       propertyPath: generationSettings.regularPlatforms.Array.data[2]
       value: 
-      objectReference: {fileID: 3329887065012773304, guid: 4b1133e438cb38b44850d91f3a29fca7, type: 3}
+      objectReference: {fileID: 7052681128441344860, guid: 3a7c960358fd16f4194d73eca164b330, type: 3}
     - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
       propertyPath: generationSettings.regularPlatforms.Array.data[3]
       value: 
-      objectReference: {fileID: 3308229268808651848, guid: 1af369af8c576cd48a77f3edaf6a22d4, type: 3}
+      objectReference: {fileID: 3329887065012773304, guid: 4b1133e438cb38b44850d91f3a29fca7, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
 --- !u!1001 &7270822327186650981

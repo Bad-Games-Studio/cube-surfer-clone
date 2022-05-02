@@ -52,7 +52,7 @@ namespace CubeSurfer.EcsSystem.Level
             var previousObject = CreatePlatform(settings.startPlatform, null);
             for (var i = 0; i < _regularPlatformsAmount; ++i)
             {
-                var p = i % 3;
+                var p = i % settings.regularPlatforms.Length;
                 previousObject = CreatePlatform(settings.regularPlatforms[p], previousObject);
             }
         }

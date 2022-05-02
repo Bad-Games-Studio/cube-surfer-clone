@@ -42,5 +42,10 @@ namespace CubeSurfer.EcsEntity.Player
             
             ++_blocksAmount;
         }
+
+        public void DecrementBlocksCounter()
+        {
+            --_blocksAmount;
+        }
     }
 }
