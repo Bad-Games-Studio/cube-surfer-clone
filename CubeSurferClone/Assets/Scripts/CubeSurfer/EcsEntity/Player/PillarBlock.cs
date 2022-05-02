@@ -10,7 +10,7 @@ namespace CubeSurfer.EcsEntity.Player
         private Transform _pillarTransform;
         private Transform _myTransform;
         
-        private const float VerticalPositionEpsilon = 0.005f;
+        private const float VerticalPositionEpsilon = 0.05f;
 
         private void Start()
         {
@@ -72,8 +72,9 @@ namespace CubeSurfer.EcsEntity.Player
                 _pillar.DecrementBlocksCounter();
             }
             _myTransform.parent = null;
-
+            
             Destroy(this);
+            Destroy(_myTransform.gameObject, 3);
         }
     }
 }
