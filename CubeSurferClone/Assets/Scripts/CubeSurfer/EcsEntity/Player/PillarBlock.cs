@@ -57,7 +57,8 @@ namespace CubeSurfer.EcsEntity.Player
             }
             
             var wallBlockPosition = wallBlock.transform.position;
-            if (Mathf.Abs(_myTransform.position.y - wallBlockPosition.y) > VerticalPositionEpsilon)
+            var isSameYPosition = Mathf.Abs(_myTransform.position.y - wallBlockPosition.y) < VerticalPositionEpsilon;
+            if (!isSameYPosition)
             {
                 return;
             }
