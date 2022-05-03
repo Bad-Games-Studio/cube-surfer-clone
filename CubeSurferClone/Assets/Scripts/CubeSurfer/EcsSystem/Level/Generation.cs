@@ -16,12 +16,14 @@ namespace CubeSurfer.EcsSystem.Level
     {
         private EcsEntity.Level _level;
 
-        private int _turnsEveryN;
         private int _turnsLeft;
         private int _lavaLakesLeft;
         private int _wallsLeft;
         private int FeaturesLeft => _turnsLeft + _lavaLakesLeft + _wallsLeft;
 
+        private int _turnsEveryN;
+        private bool ShouldGenerateTurn => _currentPlatformIndex % _turnsEveryN == _turnsEveryN - 1;
+        
         private int _currentPlatformIndex;
         private Direction _currentDirection;
         private int _currentMaxScore;
@@ -91,7 +93,7 @@ namespace CubeSurfer.EcsSystem.Level
             {
                 _availableFeatures.Remove(Feature.Turn);
             }
-            else if (_currentPlatformIndex % _turnsEveryN == _turnsEveryN - 1)
+            else if (ShouldGenerateTurn)
             {
                 return Feature.Turn;
             }
@@ -156,6 +158,13 @@ namespace CubeSurfer.EcsSystem.Level
             _currentMaxScore -= minScoreToLose;
             while (_currentMaxScore <= 1)
             {
+                if (_turnsLeft > 0 && ShouldGenerateTurn)
+                {
+                    DecrementFeatureCounter(Feature.Turn);
+                    previousObject = CreatePlatform(GetTurnObject(ref settings), previousObject);
+                    continue;
+                }
+                
                 var bonusPlatform = GetRandomElement(settings.preset.bonusPlatforms);
                 
                 var platformMaxScore = bonusPlatform.GetComponent<PlatformWithCollectibles>().MaxScore;
