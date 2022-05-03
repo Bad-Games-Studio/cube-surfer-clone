@@ -43,6 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1929522154402436866}
   - component: {fileID: 839708324869945685}
+  - component: {fileID: 5890280057025406958}
   m_Layer: 0
   m_Name: Walls Platform - RL Walls With Holes
   m_TagString: Untagged
@@ -78,6 +79,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c994b85393071624ba04bcb046b88dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5890280057025406958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7052681128441344860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be4f3337b9dace49aef53d535b9b4ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minScoreToLose: 3
 --- !u!1001 &2453367964605327007
 PrefabInstance:
   m_ObjectHideFlags: 0

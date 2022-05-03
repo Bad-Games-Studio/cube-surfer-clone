@@ -10,7 +10,7 @@ namespace CubeSurfer.Initialization
         private EcsWorld _world;
         private EcsSystems _systems;
         private EcsSystems _fixedUpdateSystems;
-    
+        
         private void Start()
         {
             _world = new EcsWorld();

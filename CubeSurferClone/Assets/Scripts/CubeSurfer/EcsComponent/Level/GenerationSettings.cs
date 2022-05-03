@@ -1,4 +1,6 @@
 using System;
+using CubeSurfer.LevelGeneration;
+using CubeSurfer.LevelGeneration.Presets;
 using UnityEngine;
 
 namespace CubeSurfer.EcsComponent.Level
@@ -8,21 +10,12 @@ namespace CubeSurfer.EcsComponent.Level
     {
         private const float MinPercentage = 0.05f;
         private const float MaxPercentage = 0.20f;
-        
-        [Header("Features")]
-        [Range(5, 50)]
-        public int platformsAmount;
-        
-        public bool walls;
-        
-        public bool turns;
-        [Range(MinPercentage, MaxPercentage)] public float turnsPercentage;
-        
-        public bool lavaLakes;
-        [Range(MinPercentage, MaxPercentage)] public float lavaPercentage;
 
-        [Header("Level parts")]
-        public GameObject startPlatform;
-        public GameObject[] regularPlatforms;
+        [Range(20, 100)] public int platformsAmount;
+
+        [Range(0, 10)] public int turns;
+        [Range(0, 10)] public int lavaLakes;
+
+        public LevelObjectsPreset preset;
     }
 }

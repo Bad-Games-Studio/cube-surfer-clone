@@ -17,6 +17,13 @@ MonoBehaviour:
   turnLeftPlatform: {fileID: 9193881087146086588, guid: 9aadc391001ab084e88e3123853a475b, type: 3}
   turnRightPlatform: {fileID: 3329887065012773304, guid: 4b1133e438cb38b44850d91f3a29fca7, type: 3}
   wallsPlatforms:
-  - {fileID: 0}
-  bonusPlatforms: []
+  - {fileID: 7052681128441344860, guid: 7cd4dd4571f7506458ffd274a6216de2, type: 3}
+  - {fileID: 7052681128441344860, guid: 92e6a14b7bc488c43927d3533d525ee7, type: 3}
+  - {fileID: 7052681128441344860, guid: 5cff323a906d40f48be4a3b306bd33fa, type: 3}
+  - {fileID: 7052681128441344860, guid: c57a184a4a1e66349aa8bbbd7d4c3374, type: 3}
+  bonusPlatforms:
+  - {fileID: 7877097544752111724, guid: 421698f10289a3a408eddbc98a84f7df, type: 3}
+  - {fileID: 7877097544752111724, guid: 54e1f4971484f14408f5ddc81a28c52f, type: 3}
+  - {fileID: 7877097544752111724, guid: 9a18e68f8af27644698aa14255e32005, type: 3}
+  - {fileID: 7877097544752111724, guid: f8c51f171d0da0e428daa5ddf967c3d3, type: 3}
   lavaPlatforms: []
