@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b943e6e03b92364eaaf716c8a796d2a, type: 3}
+  m_Name: EasyLevel
+  m_EditorClassIdentifier: 
+  startPlatform: {fileID: 3308229268808651848, guid: ddd6defbb20ee4046a2eee0337dd9e17, type: 3}
+  standardPlatform: {fileID: 3308229268808651848, guid: 1af369af8c576cd48a77f3edaf6a22d4, type: 3}
+  turnLeftPlatform: {fileID: 9193881087146086588, guid: 9aadc391001ab084e88e3123853a475b, type: 3}
+  turnRightPlatform: {fileID: 3329887065012773304, guid: 4b1133e438cb38b44850d91f3a29fca7, type: 3}
+  wallsPlatforms:
+  - {fileID: 0}
+  bonusPlatforms: []
+  lavaPlatforms: []
