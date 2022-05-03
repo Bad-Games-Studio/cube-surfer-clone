@@ -23,7 +23,10 @@ namespace CubeSurfer.EcsEntity.Player
 
         private void OnDestroy()
         {
-            _entity.Destroy();
+            if (_entity.IsWorldAlive())
+            {
+                _entity.Destroy();
+            }
         }
 
         private void OnTriggerEnter(Collider other)
