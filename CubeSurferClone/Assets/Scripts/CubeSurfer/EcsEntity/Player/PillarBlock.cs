@@ -1,4 +1,5 @@
 using CubeSurfer.CollisionTag;
+using CubeSurfer.Util;
 using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -43,6 +44,11 @@ namespace CubeSurfer.EcsEntity.Player
         {
             var otherObject = collision.transform;
             if (!otherObject.TryGetComponent(out WallBlock _))
+            {
+                return;
+            }
+            
+            if (!CollisionMagic.CollidesWithSides(transform, collision))
             {
                 return;
             }
