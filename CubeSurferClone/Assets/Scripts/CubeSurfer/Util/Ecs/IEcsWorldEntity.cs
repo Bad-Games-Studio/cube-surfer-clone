@@ -1,6 +1,6 @@
 using Leopotam.Ecs;
 
-namespace CubeSurfer.Util
+namespace CubeSurfer.Util.Ecs
 {
     public interface IEcsWorldEntity
     {

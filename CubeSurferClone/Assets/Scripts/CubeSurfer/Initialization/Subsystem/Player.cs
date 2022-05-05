@@ -1,4 +1,4 @@
-using CubeSurfer.Util;
+using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
 using UnityEngine;
 
