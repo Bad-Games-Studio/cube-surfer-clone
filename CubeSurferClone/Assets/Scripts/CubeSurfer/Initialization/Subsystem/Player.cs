@@ -28,6 +28,7 @@ namespace CubeSurfer.Initialization.Subsystem
                 .Add(new EcsSystem.Player.CubesPillar.HorizontalMovement())
                 .Add(new EcsSystem.Player.PillarCube.BlockCollecting())
                 .Add(new EcsSystem.Player.PillarCube.WallCollision())
+                .Add(new EcsSystem.Player.PillarCube.AntiBounce())
                 .OneFrame<EcsComponent.Player.PillarBlock.BlockCollectedEvent>()
                 .OneFrame<EcsComponent.Player.PillarBlock.WallCollisionEvent>();
         }

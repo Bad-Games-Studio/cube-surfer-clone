@@ -19,6 +19,9 @@ namespace CubeSurfer.EcsEntity.Player
 
             ref var transformRef = ref _entity.Get<EcsComponent.TransformRef>();
             transformRef.Transform = transform;
+
+            ref var rigidbodyRef = ref _entity.Get<EcsComponent.RigidbodyRef>();
+            rigidbodyRef.Rigidbody = transform.GetComponent<Rigidbody>();
         }
 
         private void OnDestroy()
