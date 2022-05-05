@@ -1,29 +1,28 @@
+using CubeSurfer.EcsComponent;
 using Leopotam.Ecs;
 using UnityEngine;
+using PlayerTag = CubeSurfer.EcsComponent.Player.Main.Tag;
+using ForwardMovementComponent = CubeSurfer.EcsComponent.Player.Main.ForwardMovement;
 
 namespace CubeSurfer.EcsSystem.Player.Main
 {
     public class ForwardMovement : IEcsRunSystem
     {
-        private EcsFilter<
-            EcsComponent.Player.Main.Tag,
-            EcsComponent.TransformRef,
-            EcsComponent.Player.Main.ForwardMovement> _filter;
+        private EcsFilter<PlayerTag, TransformRef, ForwardMovementComponent> _filter;
         
         public void Run()
         {
             foreach (var i in _filter)
             {
                 ref var entity = ref _filter.GetEntity(i);
-                ref var transformRef = ref entity.Get<EcsComponent.TransformRef>();
-                ref var movement = ref entity.Get<EcsComponent.Player.Main.ForwardMovement>();
+                ref var transformRef = ref entity.Get<TransformRef>();
+                ref var movement = ref entity.Get<ForwardMovementComponent>();
                 
                 HandlePlayerMovement(transformRef.Transform, ref movement);
             }
         }
 
-        private static void HandlePlayerMovement(
-            Transform player, ref EcsComponent.Player.Main.ForwardMovement forwardMovement)
+        private static void HandlePlayerMovement(Transform player, ref ForwardMovementComponent forwardMovement)
         {
             player.position += Time.deltaTime * forwardMovement.speed * player.forward;
         }

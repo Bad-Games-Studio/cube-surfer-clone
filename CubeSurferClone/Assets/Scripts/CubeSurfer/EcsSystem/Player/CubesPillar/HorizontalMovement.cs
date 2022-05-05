@@ -1,29 +1,27 @@
-using CubeSurfer.EcsComponent.Player.CubesPillar;
+using CubeSurfer.EcsComponent;
 using Leopotam.Ecs;
 using UnityEngine;
+using PillarTag = CubeSurfer.EcsComponent.Player.CubesPillar.Tag;
+using MovementComponent = CubeSurfer.EcsComponent.Player.CubesPillar.HorizontalMovement;
 
 namespace CubeSurfer.EcsSystem.Player.CubesPillar
 {
     public class HorizontalMovement : IEcsRunSystem
     {
-        private EcsFilter<
-            Tag,
-            EcsComponent.TransformRef,
-            EcsComponent.Player.CubesPillar.HorizontalMovement> _filter;
+        private EcsFilter<PillarTag, TransformRef, MovementComponent> _filter;
 
         public void Run()
         {
             foreach (var i in _filter)
             {
                 var entity = _filter.GetEntity(i);
-                var transformRef = entity.Get<EcsComponent.TransformRef>();
-                ref var cubesPillarMovement = ref entity.Get<EcsComponent.Player.CubesPillar.HorizontalMovement>();
+                var transformRef = entity.Get<TransformRef>();
+                ref var cubesPillarMovement = ref entity.Get<MovementComponent>();
                 HandlePillarMovement(transformRef.Transform, ref cubesPillarMovement);
             }
         }
 
-        private static void HandlePillarMovement(
-            Transform transform, ref EcsComponent.Player.CubesPillar.HorizontalMovement horizontalMovement)
+        private static void HandlePillarMovement(Transform transform, ref MovementComponent horizontalMovement)
         {
             var direction = 0;
             if (Input.GetKey(KeyCode.LeftArrow))

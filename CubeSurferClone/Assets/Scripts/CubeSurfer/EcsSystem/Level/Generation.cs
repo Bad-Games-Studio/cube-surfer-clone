@@ -7,8 +7,8 @@ using JetBrains.Annotations;
 using Leopotam.Ecs;
 using Unity.Mathematics;
 using UnityEngine;
-using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
+using UnityObject = UnityEngine.Object;
+using UnityRandom = UnityEngine.Random;
 
 namespace CubeSurfer.EcsSystem.Level
 {
@@ -69,7 +69,7 @@ namespace CubeSurfer.EcsSystem.Level
 
         private static GameObject GetRandomElement(IReadOnlyList<GameObject> array)
         {
-            var randomIndex = Random.Range(0, array.Count);
+            var randomIndex = UnityRandom.Range(0, array.Count);
             return array[randomIndex];
         }
         
@@ -97,7 +97,7 @@ namespace CubeSurfer.EcsSystem.Level
 
         private FeatureBag GetRandomFeature()
         {
-            var index = Random.Range(0, _availableFeatures.Count);
+            var index = UnityRandom.Range(0, _availableFeatures.Count);
             var feature = _availableFeatures[index];
             
             var result = feature.TakeOne();
@@ -156,7 +156,7 @@ namespace CubeSurfer.EcsSystem.Level
             switch (_currentDirection)
             {
                 case Direction.PositiveZ:
-                    var decision = Random.Range(0.0f, 0.1f);
+                    var decision = UnityRandom.Range(0.0f, 0.1f);
                     _currentDirection = decision < 0.5f ? Direction.NegativeX : Direction.PositiveX;
                     return decision < 0.5f ? settings.preset.turnLeftPlatform : settings.preset.turnRightPlatform;
                 
@@ -185,7 +185,7 @@ namespace CubeSurfer.EcsSystem.Level
         private GameObject CreatePlatform(GameObject newPlatform, [CanBeNull] GameObject previousPlatform)
         {
             var platform = 
-                Object.Instantiate(newPlatform, Vector3.zero, quaternion.identity);
+                UnityObject.Instantiate(newPlatform, Vector3.zero, quaternion.identity);
             platform.transform.parent = _level.transform;
 
             if (previousPlatform == null)

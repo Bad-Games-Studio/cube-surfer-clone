@@ -8,13 +8,13 @@ namespace CubeSurfer.EcsSystem.Player.PillarCube
 {
     public class WallCollision : IEcsRunSystem
     {
-        private EcsFilter<PillarBlockTag, TransformRef, WallCollisionEvent> _wallCollisionFilter;
+        private EcsFilter<PillarBlockTag, TransformRef, WallCollisionEvent> _filter;
         
         public void Run()
         {
-            foreach (var i in _wallCollisionFilter)
+            foreach (var i in _filter)
             {
-                var entity = _wallCollisionFilter.GetEntity(i);
+                var entity = _filter.GetEntity(i);
                 var transformRef = entity.Get<TransformRef>();
                 var @event = entity.Get<WallCollisionEvent>();
                 

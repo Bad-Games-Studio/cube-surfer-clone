@@ -1,29 +1,29 @@
+using CubeSurfer.EcsComponent;
 using CubeSurfer.Util;
 using Leopotam.Ecs;
 using UnityEngine;
+using CameraTag = CubeSurfer.EcsComponent.Camera.Tag;
+using MovementSettings = CubeSurfer.EcsComponent.Camera.Settings;
 
 namespace CubeSurfer.EcsSystem.Camera
 {
     public class FollowTarget : IEcsRunSystem
     {
-        private EcsFilter<
-            EcsComponent.Camera.Tag,
-            EcsComponent.TransformRef,
-            EcsComponent.Camera.Settings> _filter;
+        private EcsFilter<CameraTag, TransformRef, MovementSettings> _filter;
 
         public void Run()
         {
             foreach (var i in _filter)
             {
                 var entity = _filter.GetEntity(i);
-                var transformRef = entity.Get<EcsComponent.TransformRef>();
-                ref var settings = ref entity.Get<EcsComponent.Camera.Settings>();
+                var transformRef = entity.Get<TransformRef>();
+                ref var settings = ref entity.Get<MovementSettings>();
                 HandleMovement(transformRef.Transform, ref settings);
             }
         }
 
 
-        private static void HandleMovement(Transform camera, ref EcsComponent.Camera.Settings settings)
+        private static void HandleMovement(Transform camera, ref MovementSettings settings)
         {
             var target = settings.target;
 

@@ -10,10 +10,9 @@ namespace CubeSurfer.Initialization.Subsystem
         
         public void AddSystemsTo(EcsSystems systems, EcsSystems fixedUpdateSystems)
         {
-            systems.Add(new EcsSystem.Level.InitSystem())
-                .Inject(level);
-
-            systems.Add(new EcsSystem.Level.Generation())
+            systems
+                .Add(new EcsSystem.Level.InitSystem())
+                .Add(new EcsSystem.Level.Generation())
                 .Inject(level);
         }
     }
