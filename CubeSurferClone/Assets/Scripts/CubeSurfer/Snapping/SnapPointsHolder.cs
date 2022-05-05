@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace CubeSurfer.Snapping
@@ -11,6 +12,20 @@ namespace CubeSurfer.Snapping
         {
             BackSnapPoint = GetComponentInChildren<BackSnapPoint>();
             FrontSnapPoint = GetComponentInChildren<FrontSnapPoint>();
+            ValidateSnapPoints();
+        }
+
+        private void ValidateSnapPoints()
+        {
+            if (BackSnapPoint == null)
+            {
+                throw new ArgumentException("Back Snap Point was null.");
+            }
+
+            if (FrontSnapPoint == null)
+            {
+                throw new ArgumentException("Front Snap Point was null.");
+            }
         }
 
         /// <summary>

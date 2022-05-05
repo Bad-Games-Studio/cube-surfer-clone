@@ -34,36 +34,52 @@ namespace CubeSurfer.EcsEntity.Player
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.TryGetComponent(out CollectiblePillarBlock block))
+            if (other.TryGetComponent(out CollectiblePillarBlock block))
             {
-                return;
+                FireBlockCollectedEvent(block);
             }
-            
-            ref var blockCollectedEvent = ref _entity.Get<EcsComponent.Player.PillarBlock.BlockCollectedEvent>();
-            blockCollectedEvent.block = block;
+
+            if (other.TryGetComponent(out LavaPool _))
+            {
+                FireTouchedLavaEvent();
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             var otherObject = collision.transform;
-            if (!otherObject.TryGetComponent(out WallBlock _))
+            if (otherObject.TryGetComponent(out WallBlock _))
             {
-                return;
+                FireWallCollisionEvent(otherObject, collision);
             }
-            
+        }
+
+        private void FireBlockCollectedEvent(CollectiblePillarBlock block)
+        {
+            ref var blockCollectedEvent = ref _entity.Get<EcsComponent.Player.PillarBlock.BlockCollectedEvent>();
+            blockCollectedEvent.block = block;
+        }
+
+        private void FireTouchedLavaEvent()
+        {
+            _entity.Get<EcsComponent.Player.PillarBlock.TouchedLavaEvent>();
+        }
+        
+        private void FireWallCollisionEvent(Transform wallObject, Collision collision)
+        {
             if (!CollisionMagic.CollidesWithSides(transform, collision))
             {
                 return;
             }
             
-            var isSameYPosition = Mathf.Abs(transform.position.y - otherObject.position.y) < VerticalPositionEpsilon;
+            var isSameYPosition = Mathf.Abs(transform.position.y - wallObject.position.y) < VerticalPositionEpsilon;
             if (!isSameYPosition)
             {
                 return;
             }
 
             ref var collisionEvent = ref _entity.Get<EcsComponent.Player.PillarBlock.WallCollisionEvent>();
-            collisionEvent.wall = otherObject;
+            collisionEvent.wall = wallObject;
         }
     }
 }

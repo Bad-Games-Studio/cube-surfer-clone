@@ -15,21 +15,18 @@ namespace CubeSurfer.EcsSystem.Level
     public class Generation : IEcsInitSystem
     {
         private EcsEntity.Level _level;
-
-        private int _turnsLeft;
-        private int _lavaLakesLeft;
-        private int _wallsLeft;
-        private int FeaturesLeft => _turnsLeft + _lavaLakesLeft + _wallsLeft;
-
-        private int _turnsEveryN;
-        private bool ShouldGenerateTurn => _currentPlatformIndex % _turnsEveryN == _turnsEveryN - 1;
         
-        private int _currentPlatformIndex;
         private Direction _currentDirection;
         private int _currentMaxScore;
-        private List<Feature> _availableFeatures;
+        private List<FeatureBag> _availableFeatures;
 
-
+        private enum Direction
+        {
+            PositiveX, NegativeX,
+            PositiveZ
+        }
+        
+        
         public void Init()
         {
             ref var settings = ref _level.GenerationSettings;
@@ -41,157 +38,147 @@ namespace CubeSurfer.EcsSystem.Level
 
         private void CalculatePlatformAmounts(ref GenerationSettings settings)
         {
-            _turnsLeft = settings.turns;
-            _lavaLakesLeft = settings.lavaLakes;
-
-            _wallsLeft = (settings.platformsAmount - _turnsLeft - _lavaLakesLeft) / 2;
-
-            _turnsEveryN = settings.platformsAmount / (settings.turns + 1);
-        }
-
-        private enum Feature
-        {
-            Wall, Turn, LavaLake
-        }
-
-        private enum Direction
-        {
-            PositiveX, NegativeX,
-            PositiveZ
-        }
-        
-        private void GenerateLevel(ref GenerationSettings settings)
-        {
-            var previousObject = CreatePlatform(settings.preset.startPlatform, null);
-
-            _currentPlatformIndex = 0;
-            _currentMaxScore = 0;
-            _availableFeatures = new List<Feature>{ Feature.Wall, Feature.Turn, Feature.LavaLake };
-            _currentDirection = Direction.PositiveZ;
-
-            while (FeaturesLeft > 0 && _currentPlatformIndex < settings.platformsAmount)
+            var wallsAmount = settings.preset.wallsPlatforms.Length == 0 ? 0 : settings.walls;
+            var lavaLakesAmount = settings.preset.lavaPlatforms.Length == 0 ? 0 : settings.lavaLakes;
+            
+            var hasObstacles = wallsAmount > 0 || lavaLakesAmount > 0;
+            if (hasObstacles && settings.preset.bonusPlatforms.Length == 0)
             {
-                var feature = DecideNextFeature();
-                previousObject = GenerateFeature(feature, ref settings, previousObject);
-                ++_currentPlatformIndex;
-            }
-        }
-
-        private Feature DecideNextFeature()
-        {
-            if (_wallsLeft == 0)
-            {
-                _availableFeatures.Remove(Feature.Wall);
+                throw new ArgumentException(
+                    "Impossible to generate playable level with this preset: no bonus platforms were specified");
             }
             
-            if (_lavaLakesLeft == 0)
-            {
-                _availableFeatures.Remove(Feature.LavaLake);
-            }
+            _availableFeatures = new List<FeatureBag>();
 
-            if (_turnsLeft == 0)
+            if (settings.turns > 0)
             {
-                _availableFeatures.Remove(Feature.Turn);
-            }
-            else if (ShouldGenerateTurn)
-            {
-                return Feature.Turn;
+                _availableFeatures.Add(new FeatureBag(FeatureBag.ObjectType.Turn, settings.turns));
             }
             
-            var feature = _availableFeatures[Random.Range(0, _availableFeatures.Count)];
-            return feature;
+            if (wallsAmount > 0)
+            {
+                _availableFeatures.Add(new FeatureBag(FeatureBag.ObjectType.Wall, wallsAmount));
+            }
+
+            if (lavaLakesAmount > 0)
+            {
+                _availableFeatures.Add(new FeatureBag(FeatureBag.ObjectType.LavaLake, lavaLakesAmount));
+            }
         }
 
-        private GameObject GetFeatureObject(Feature feature, ref GenerationSettings settings)
-        {
-            return feature switch
-            {
-                Feature.Wall => GetRandomElement(settings.preset.wallsPlatforms),
-                Feature.Turn => GetTurnObject(ref settings),
-                Feature.LavaLake => GetRandomElement(settings.preset.lavaPlatforms),
-                _ => throw new ArgumentOutOfRangeException(nameof(feature), feature, null)
-            };
-        }
 
         private static GameObject GetRandomElement(IReadOnlyList<GameObject> array)
         {
             var randomIndex = Random.Range(0, array.Count);
             return array[randomIndex];
         }
-
-        private GameObject GetTurnObject(ref GenerationSettings settings)
+        
+        private void GenerateLevel(ref GenerationSettings settings)
         {
-            var left = settings.preset.turnLeftPlatform;
-            var right = settings.preset.turnRightPlatform;
+            _currentDirection = Direction.PositiveZ;
+            _currentMaxScore = 0;
+
+            var features = GenerateFeaturesList();
+            var gameObjects = FeaturesToGameObjects(features, ref settings);
+            GeneratePlatformsFrom(gameObjects);
+        }
+
+        private List<FeatureBag> GenerateFeaturesList()
+        {
+            var features = new List<FeatureBag>();
+            while (_availableFeatures.Count > 0)
+            {
+                var newFeature = GetRandomFeature();
+                features.Add(newFeature);
+            }
+            
+            return features;
+        }
+
+        private FeatureBag GetRandomFeature()
+        {
+            var index = Random.Range(0, _availableFeatures.Count);
+            var feature = _availableFeatures[index];
+            
+            var result = feature.TakeOne();
+            
+            if (feature.Empty)
+            {
+                _availableFeatures.RemoveAt(index);
+            }
+
+            return result;
+        }
+
+        private List<GameObject> FeaturesToGameObjects(List<FeatureBag> features, ref GenerationSettings settings)
+        {
+            var gameObjects = new List<GameObject> { settings.preset.startPlatform };
+
+            foreach (var feature in features)
+            {
+                var currentFeatureObject = GameObjectFromFeature(feature.Type, ref settings);
+                if (currentFeatureObject.TryGetComponent(out DangerousPlatform scoreKiller))
+                {
+                    _currentMaxScore -= scoreKiller.MinScoreToLose;
+                }
+
+                if (currentFeatureObject.TryGetComponent(out PlatformWithCollectibles scoreGiver))
+                {
+                    _currentMaxScore += scoreGiver.MaxScore;
+                }
+
+                while (_currentMaxScore <= settings.minPlayerScore)
+                {
+                    var bonusObject = GetRandomElement(settings.preset.bonusPlatforms);
+                    
+                    _currentMaxScore += bonusObject.GetComponent<PlatformWithCollectibles>().MaxScore;
+                    gameObjects.Add(bonusObject);
+                }
+                gameObjects.Add(currentFeatureObject);
+            }
+            
+            return gameObjects;
+        }
+
+        private GameObject GameObjectFromFeature(FeatureBag.ObjectType type, ref GenerationSettings settings)
+        {
+            return type switch
+            {
+                FeatureBag.ObjectType.Wall => GetRandomElement(settings.preset.wallsPlatforms),
+                FeatureBag.ObjectType.LavaLake => GetRandomElement(settings.preset.lavaPlatforms),
+                FeatureBag.ObjectType.Turn => GetRandomTurnDirection(ref settings),
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
+        }
+
+        private GameObject GetRandomTurnDirection(ref GenerationSettings settings)
+        {
             switch (_currentDirection)
             {
                 case Direction.PositiveZ:
-                    var decision = Random.Range(0.0f, 1.0f);
+                    var decision = Random.Range(0.0f, 0.1f);
                     _currentDirection = decision < 0.5f ? Direction.NegativeX : Direction.PositiveX;
-                    return decision < 0.5 ? left : right;
-                
-                case Direction.PositiveX:
-                    _currentDirection = Direction.PositiveZ;
-                    return left;
+                    return decision < 0.5f ? settings.preset.turnLeftPlatform : settings.preset.turnRightPlatform;
                 
                 case Direction.NegativeX:
                     _currentDirection = Direction.PositiveZ;
-                    return right;
+                    return settings.preset.turnRightPlatform;
+                
+                case Direction.PositiveX:
+                    _currentDirection = Direction.PositiveZ;
+                    return settings.preset.turnLeftPlatform;
                 
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    return settings.preset.standardPlatform;
             }
         }
 
-        private GameObject GenerateFeature(Feature feature, ref GenerationSettings settings, GameObject previousObject)
+        private void GeneratePlatformsFrom(List<GameObject> gameObjects)
         {
-            var featureObject = GetFeatureObject(feature, ref settings);
-            
-            DecrementFeatureCounter(feature);
-            
-            if (feature == Feature.Turn)
+            var previousObject = CreatePlatform(gameObjects[0], null);
+            for (var i = 1; i < gameObjects.Count; ++i)
             {
-                return CreatePlatform(featureObject, previousObject);
-            }
-
-            var minScoreToLose = featureObject.GetComponent<DangerousPlatform>().MinScoreToLose;
-            _currentMaxScore -= minScoreToLose;
-            while (_currentMaxScore <= 1)
-            {
-                if (_turnsLeft > 0 && ShouldGenerateTurn)
-                {
-                    DecrementFeatureCounter(Feature.Turn);
-                    previousObject = CreatePlatform(GetTurnObject(ref settings), previousObject);
-                    continue;
-                }
-                
-                var bonusPlatform = GetRandomElement(settings.preset.bonusPlatforms);
-                
-                var platformMaxScore = bonusPlatform.GetComponent<PlatformWithCollectibles>().MaxScore;
-                _currentMaxScore += platformMaxScore;
-
-                previousObject = CreatePlatform(bonusPlatform, previousObject);
-                ++_currentPlatformIndex;
-            }
-            
-            return CreatePlatform(featureObject, previousObject);
-        }
-
-        private void DecrementFeatureCounter(Feature feature)
-        {
-            switch (feature)
-            {
-                case Feature.Wall:
-                    --_wallsLeft;
-                    break;
-                case Feature.Turn:
-                    --_turnsLeft;
-                    break;
-                case Feature.LavaLake:
-                    --_lavaLakesLeft;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(feature), feature, null);
+                previousObject = CreatePlatform(gameObjects[i], previousObject);
             }
         }
 
