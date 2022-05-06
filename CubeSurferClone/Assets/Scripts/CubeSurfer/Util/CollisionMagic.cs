@@ -4,6 +4,12 @@ namespace CubeSurfer.Util
 {
     public static class CollisionMagic
     {
+        /// <summary>
+        /// Checks if the center of the first body is within the size of the other body.
+        /// </summary>
+        /// <param name="body">The body to check.</param>
+        /// <param name="otherBody">The body relative to which the coordinates will be checked.</param>
+        /// <returns>`true` if the body is within the second body size, `false` otherwise`.</returns>
         public static bool IsWithinYSize(Transform body, Transform otherBody)
         {
             var position = body.position.y;
