@@ -627,7 +627,7 @@ PrefabInstance:
     - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
       propertyPath: generationSettings.preset
       value: 
-      objectReference: {fileID: 11400000, guid: 869b44e404620bf44b060c733423865d, type: 2}
+      objectReference: {fileID: 11400000, guid: fe5b607ce436ac74184c6f542b08dc69, type: 2}
     - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
       propertyPath: generationSettings.lavaLakes
       value: 4

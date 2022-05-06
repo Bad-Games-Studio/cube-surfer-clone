@@ -10,8 +10,6 @@ namespace CubeSurfer.EcsEntity.Player
     {
         private Leopotam.Ecs.EcsEntity _entity;
 
-        private const float VerticalPositionEpsilon = 0.5f;
-        
         public void CreateEntityIn(EcsWorld world)
         {
             _entity = world.NewEntity();
@@ -72,8 +70,7 @@ namespace CubeSurfer.EcsEntity.Player
                 return;
             }
             
-            var isSameYPosition = Mathf.Abs(transform.position.y - wallObject.position.y) < VerticalPositionEpsilon;
-            if (!isSameYPosition)
+            if (!CollisionMagic.IsWithinYSize(transform, wallObject))
             {
                 return;
             }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b943e6e03b92364eaaf716c8a796d2a, type: 3}
-  m_Name: EasyLevel
+  m_Name: Walls Only
   m_EditorClassIdentifier: 
   startPlatform: {fileID: 3308229268808651848, guid: ddd6defbb20ee4046a2eee0337dd9e17, type: 3}
   finishPlatform: {fileID: 5986486692060556491, guid: f5b52f03406220d4bb348797af491bb3, type: 3}

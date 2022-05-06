@@ -4,6 +4,18 @@ namespace CubeSurfer.Util
 {
     public static class CollisionMagic
     {
+        public static bool IsWithinYSize(Transform body, Transform otherBody)
+        {
+            var position = body.position.y;
+            var otherPosition = otherBody.position.y;
+            var halfScale = otherBody.localScale.y / 2;
+
+            var top = otherPosition + halfScale;
+            var bottom = otherPosition - halfScale;
+            
+            return bottom <= position && position <= top;
+        }
+        
         /// <summary>
         /// Checks if a cube collides with its sides (left, right, front, or back).
         /// Assumes that the first object is a cube.
