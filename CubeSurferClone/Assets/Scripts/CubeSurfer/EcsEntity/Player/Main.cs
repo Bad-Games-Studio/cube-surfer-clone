@@ -38,13 +38,18 @@ namespace CubeSurfer.EcsEntity.Player
             forwardMovementRef = forwardMovement;
         }
 
+        public void StopMovingForward()
+        {
+            forwardMovement = _entity.Get<ForwardMovement>();
+            _entity.Del<ForwardMovement>();
+        }
+
         public void StartCircularMovement(TurningMovement turningMovement)
         {
             turningMovement.speed = forwardMovement.speed;
             turningMovement.StartRotation = transform.rotation;
 
-            forwardMovement = _entity.Get<ForwardMovement>();
-            _entity.Del<ForwardMovement>();
+            StopMovingForward();
 
             ref var circularMovementRef = ref _entity.Get<TurningMovement>();
             circularMovementRef = turningMovement;

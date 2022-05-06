@@ -1,6 +1,7 @@
 using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
 using UnityEngine;
+using PlayerMain = CubeSurfer.EcsEntity.Player.Main;
 
 namespace CubeSurfer.EcsEntity.Player
 {
@@ -9,14 +10,22 @@ namespace CubeSurfer.EcsEntity.Player
         [SerializeField] private EcsComponent.Player.CubesPillar.HorizontalMovement horizontalMovement;
         
         [SerializeField] private GameObject pillarBlockPrefab;
-        private int _blocksAmount;
+        
+        private int BlocksAmount { get; set; }
 
+        private PlayerMain _player;
+        
         private Leopotam.Ecs.EcsEntity _entity;
         private EcsWorld _ecsWorld;
 
+        private void Awake()
+        {
+            _player = transform.parent.GetComponent<PlayerMain>();
+            BlocksAmount = 0;
+        }
+
         private void Start()
         {
-            _blocksAmount = 0;
             AddPillarBlock();
         }
 
@@ -37,7 +46,7 @@ namespace CubeSurfer.EcsEntity.Player
         {
             var t = transform;
             var position = t.position;
-            position.y += _blocksAmount * pillarBlockPrefab.transform.localScale.y;
+            position.y += BlocksAmount * pillarBlockPrefab.transform.localScale.y;
             
             var instance = Instantiate(pillarBlockPrefab, position, t.localRotation);
             instance.transform.parent = transform;
@@ -45,12 +54,16 @@ namespace CubeSurfer.EcsEntity.Player
             var pillarBlock = instance.GetComponent<PillarBlock>();
             pillarBlock.CreateEntityIn(_ecsWorld);
 
-            ++_blocksAmount;
+            ++BlocksAmount;
         }
 
         public void DecrementBlocksCounter()
         {
-            --_blocksAmount;
+            --BlocksAmount;
+            if (BlocksAmount == 0)
+            {
+                _player.StopMovingForward();
+            }
         }
     }
 }
