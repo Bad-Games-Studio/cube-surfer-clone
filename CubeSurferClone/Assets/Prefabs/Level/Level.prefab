@@ -44,12 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generationSettings:
-    platformsAmount: 5
-    walls: 0
-    turns: 1
-    turnsPercentage: 0.2
-    lavaLakes: 0
-    lavaPercentage: 0.2
-    platformWidth: 5
-    platformLength: 10
-    platformHeight: 1
+    minPlayerScore: 2
+    emptyBlocks: 8
+    walls: 8
+    turns: 4
+    lavaLakes: 4
+    preset: {fileID: 11400000, guid: fe5b607ce436ac74184c6f542b08dc69, type: 2}

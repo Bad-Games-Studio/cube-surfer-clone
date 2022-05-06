@@ -617,33 +617,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
-      propertyPath: generationSettings.turns
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
-      propertyPath: generationSettings.walls
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
-      propertyPath: generationSettings.preset
-      value: 
-      objectReference: {fileID: 11400000, guid: fe5b607ce436ac74184c6f542b08dc69, type: 2}
-    - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
-      propertyPath: generationSettings.lavaLakes
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
-      propertyPath: generationSettings.emptyBlocks
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
       propertyPath: generationSettings.startPlatform
       value: 
       objectReference: {fileID: 3308229268808651848, guid: ddd6defbb20ee4046a2eee0337dd9e17, type: 3}
-    - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
-      propertyPath: generationSettings.minPlayerScore
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
       propertyPath: generationSettings.platformHeight
       value: 1
