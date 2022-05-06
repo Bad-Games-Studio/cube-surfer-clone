@@ -31,12 +31,12 @@ namespace CubeSurfer.EcsSystem.Level
         {
             ref var settings = ref _level.GenerationSettings;
             
-            CalculatePlatformAmounts(ref settings);
+            CreateAvailableFeaturesList(ref settings);
 
             GenerateLevel(ref settings);
         }
 
-        private void CalculatePlatformAmounts(ref GenerationSettings settings)
+        private void CreateAvailableFeaturesList(ref GenerationSettings settings)
         {
             var wallsAmount = settings.preset.wallsPlatforms.Length == 0 ? 0 : settings.walls;
             var lavaLakesAmount = settings.preset.lavaPlatforms.Length == 0 ? 0 : settings.lavaLakes;
@@ -136,6 +136,8 @@ namespace CubeSurfer.EcsSystem.Level
                 }
                 gameObjects.Add(currentFeatureObject);
             }
+            
+            gameObjects.Add(settings.preset.finishPlatform);
             
             return gameObjects;
         }

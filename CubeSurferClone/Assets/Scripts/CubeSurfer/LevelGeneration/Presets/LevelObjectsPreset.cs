@@ -6,6 +6,8 @@ namespace CubeSurfer.LevelGeneration.Presets
     public class LevelObjectsPreset : ScriptableObject
     {
         public GameObject startPlatform;
+        public GameObject finishPlatform;
+        
         public GameObject standardPlatform;
         
         public GameObject turnLeftPlatform;
