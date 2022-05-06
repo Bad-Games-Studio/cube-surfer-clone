@@ -6,5 +6,7 @@ namespace CubeSurfer.EcsComponent.Player.Main
     public struct ForwardMovement
     {
         public float speed;
+
+        public bool isMoving;
     }
 }

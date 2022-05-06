@@ -24,7 +24,16 @@ namespace CubeSurfer.EcsSystem.Player.Main
 
         private static void HandlePlayerMovement(Transform player, ref ForwardMovementComponent forwardMovement)
         {
-            player.position += Time.deltaTime * forwardMovement.speed * player.forward;
+            if (forwardMovement.isMoving)
+            {
+                player.position += Time.deltaTime * forwardMovement.speed * player.forward;
+                return;
+            }
+
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+            {
+                forwardMovement.isMoving = true;
+            }
         }
     }
 }
