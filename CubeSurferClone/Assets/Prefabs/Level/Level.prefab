@@ -44,9 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generationSettings:
-    minPlayerScore: 2
-    emptyBlocks: 8
-    walls: 8
-    turns: 4
-    lavaLakes: 4
-    preset: {fileID: 11400000, guid: fe5b607ce436ac74184c6f542b08dc69, type: 2}
+    featuresPreset: {fileID: 11400000, guid: e2d89eaf888f6db4b9a01b8990cd49cf, type: 2}
+    objectsPreset: {fileID: 11400000, guid: fe5b607ce436ac74184c6f542b08dc69, type: 2}

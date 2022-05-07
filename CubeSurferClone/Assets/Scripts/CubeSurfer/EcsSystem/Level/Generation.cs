@@ -38,11 +38,7 @@ namespace CubeSurfer.EcsSystem.Level
 
         private void CreateAvailableFeaturesList(ref GenerationSettings settings)
         {
-            var wallsAmount = settings.preset.wallsPlatforms.Length == 0 ? 0 : settings.walls;
-            var lavaLakesAmount = settings.preset.lavaPlatforms.Length == 0 ? 0 : settings.lavaLakes;
-            
-            var hasObstacles = wallsAmount > 0 || lavaLakesAmount > 0;
-            if (hasObstacles && settings.preset.bonusPlatforms.Length == 0)
+            if (!settings.CanGenerateLevel)
             {
                 throw new ArgumentException(
                     "Impossible to generate playable level with this preset: no bonus platforms were specified");
@@ -50,19 +46,19 @@ namespace CubeSurfer.EcsSystem.Level
             
             _availableFeatures = new List<FeatureBag>();
 
-            if (settings.turns > 0)
+            if (settings.TurnsAmount > 0)
             {
-                _availableFeatures.Add(new FeatureBag(FeatureBag.ObjectType.Turn, settings.turns));
+                _availableFeatures.Add(new FeatureBag(FeatureBag.ObjectType.Turn, settings.TurnsAmount));
             }
             
-            if (wallsAmount > 0)
+            if (settings.WallsAmount > 0)
             {
-                _availableFeatures.Add(new FeatureBag(FeatureBag.ObjectType.Wall, wallsAmount));
+                _availableFeatures.Add(new FeatureBag(FeatureBag.ObjectType.Wall, settings.WallsAmount));
             }
-
-            if (lavaLakesAmount > 0)
+            
+            if (settings.LavaLakesAmount > 0)
             {
-                _availableFeatures.Add(new FeatureBag(FeatureBag.ObjectType.LavaLake, lavaLakesAmount));
+                _availableFeatures.Add(new FeatureBag(FeatureBag.ObjectType.LavaLake, settings.LavaLakesAmount));
             }
         }
 
@@ -80,7 +76,7 @@ namespace CubeSurfer.EcsSystem.Level
 
             var features = GenerateFeaturesList();
             var gameObjects = FeaturesToGameObjects(features, ref settings);
-            GeneratePlatformsFrom(gameObjects);
+            CreatePlatformsFrom(gameObjects);
         }
 
         private List<FeatureBag> GenerateFeaturesList()
@@ -112,7 +108,7 @@ namespace CubeSurfer.EcsSystem.Level
 
         private List<GameObject> FeaturesToGameObjects(List<FeatureBag> features, ref GenerationSettings settings)
         {
-            var gameObjects = new List<GameObject> { settings.preset.startPlatform };
+            var gameObjects = new List<GameObject> { settings.objectsPreset.startPlatform };
 
             foreach (var feature in features)
             {
@@ -127,9 +123,9 @@ namespace CubeSurfer.EcsSystem.Level
                     _currentMaxScore += scoreGiver.MaxScore;
                 }
 
-                while (_currentMaxScore <= settings.minPlayerScore)
+                while (_currentMaxScore <= settings.MinPlayerScore)
                 {
-                    var bonusObject = GetRandomElement(settings.preset.bonusPlatforms);
+                    var bonusObject = GetRandomElement(settings.objectsPreset.bonusPlatforms);
                     
                     _currentMaxScore += bonusObject.GetComponent<PlatformWithCollectibles>().MaxScore;
                     gameObjects.Add(bonusObject);
@@ -137,7 +133,7 @@ namespace CubeSurfer.EcsSystem.Level
                 gameObjects.Add(currentFeatureObject);
             }
             
-            gameObjects.Add(settings.preset.finishPlatform);
+            gameObjects.Add(settings.objectsPreset.finishPlatform);
             
             return gameObjects;
         }
@@ -146,8 +142,8 @@ namespace CubeSurfer.EcsSystem.Level
         {
             return type switch
             {
-                FeatureBag.ObjectType.Wall => GetRandomElement(settings.preset.wallsPlatforms),
-                FeatureBag.ObjectType.LavaLake => GetRandomElement(settings.preset.lavaPlatforms),
+                FeatureBag.ObjectType.Wall => GetRandomElement(settings.objectsPreset.wallsPlatforms),
+                FeatureBag.ObjectType.LavaLake => GetRandomElement(settings.objectsPreset.lavaPlatforms),
                 FeatureBag.ObjectType.Turn => GetRandomTurnDirection(ref settings),
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
@@ -159,23 +155,27 @@ namespace CubeSurfer.EcsSystem.Level
             {
                 case Direction.PositiveZ:
                     var decision = UnityRandom.Range(0.0f, 0.1f);
-                    _currentDirection = decision < 0.5f ? Direction.NegativeX : Direction.PositiveX;
-                    return decision < 0.5f ? settings.preset.turnLeftPlatform : settings.preset.turnRightPlatform;
+                    _currentDirection = decision < 0.5f ? 
+                        Direction.NegativeX : 
+                        Direction.PositiveX;
+                    return decision < 0.5f ? 
+                        settings.objectsPreset.turnLeftPlatform : 
+                        settings.objectsPreset.turnRightPlatform;
                 
                 case Direction.NegativeX:
                     _currentDirection = Direction.PositiveZ;
-                    return settings.preset.turnRightPlatform;
+                    return settings.objectsPreset.turnRightPlatform;
                 
                 case Direction.PositiveX:
                     _currentDirection = Direction.PositiveZ;
-                    return settings.preset.turnLeftPlatform;
+                    return settings.objectsPreset.turnLeftPlatform;
                 
                 default:
-                    return settings.preset.standardPlatform;
+                    return settings.objectsPreset.standardPlatform;
             }
         }
 
-        private void GeneratePlatformsFrom(List<GameObject> gameObjects)
+        private void CreatePlatformsFrom(List<GameObject> gameObjects)
         {
             var previousObject = CreatePlatform(gameObjects[0], null);
             for (var i = 1; i < gameObjects.Count; ++i)

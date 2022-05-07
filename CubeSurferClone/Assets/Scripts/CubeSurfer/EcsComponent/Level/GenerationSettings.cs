@@ -1,6 +1,8 @@
 using System;
 using CubeSurfer.LevelGeneration;
 using CubeSurfer.LevelGeneration.Presets;
+using CubeSurfer.LevelGeneration.Presets.Features;
+using CubeSurfer.LevelGeneration.Presets.Objects;
 using UnityEngine;
 
 namespace CubeSurfer.EcsComponent.Level
@@ -8,13 +10,21 @@ namespace CubeSurfer.EcsComponent.Level
     [Serializable]
     public struct GenerationSettings
     {
-        [Range(1, 5)] public int minPlayerScore;
-        
-        [Range(0, 20)] public int emptyBlocks;
-        [Range(0, 20)] public int walls;
-        [Range(0, 10)] public int turns;
-        [Range(0, 10)] public int lavaLakes;
+        public FeaturesPreset featuresPreset;
 
-        public LevelObjectsPreset preset;
+        public LevelObjectsPreset objectsPreset;
+
+
+        public int MinPlayerScore => featuresPreset.minPlayerScore;
+        
+        public int TurnsAmount => featuresPreset.turns;
+        public int WallsAmount => objectsPreset.wallsPlatforms.Length == 0 ? 0 : featuresPreset.walls;
+        public int LavaLakesAmount => objectsPreset.lavaPlatforms.Length == 0 ? 0 : featuresPreset.lavaLakes;
+        public int BonusPlatformsAmount => objectsPreset.bonusPlatforms.Length;
+
+        public bool HasObstacles => WallsAmount > 0 || LavaLakesAmount > 0;
+        public bool HasBonusPlatforms => BonusPlatformsAmount > 0;
+
+        public bool CanGenerateLevel => !HasObstacles || HasBonusPlatforms;
     }
 }

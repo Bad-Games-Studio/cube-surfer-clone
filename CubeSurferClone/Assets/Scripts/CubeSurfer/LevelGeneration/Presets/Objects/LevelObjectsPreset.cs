@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CubeSurfer.LevelGeneration.Presets
+namespace CubeSurfer.LevelGeneration.Presets.Objects
 {
     [CreateAssetMenu(fileName = "New Level Objects Preset", menuName = "Level Objects Preset")]
     public class LevelObjectsPreset : ScriptableObject
