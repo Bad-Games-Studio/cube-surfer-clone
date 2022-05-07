@@ -76,6 +76,7 @@ namespace CubeSurfer.EcsSystem.Level
 
             var features = GenerateFeaturesList();
             var gameObjects = FeaturesToGameObjects(features, ref settings);
+            gameObjects = InjectScoreGivers(gameObjects, ref settings);
             CreatePlatformsFrom(gameObjects);
         }
 
@@ -175,6 +176,22 @@ namespace CubeSurfer.EcsSystem.Level
             }
         }
 
+        private List<GameObject> InjectScoreGivers(List<GameObject> gameObjects, ref GenerationSettings settings)
+        {
+            while (_currentMaxScore < settings.MinPlayerScore)
+            {
+                var index = UnityRandom.Range(1, gameObjects.Count - 1);
+                
+                var bonusObject = GetRandomElement(settings.objectsPreset.bonusPlatforms);
+                    
+                _currentMaxScore += bonusObject.GetComponent<PlatformWithCollectibles>().MaxScore;
+
+                gameObjects.Insert(index, bonusObject);
+            }
+            
+            return gameObjects;
+        }
+        
         private void CreatePlatformsFrom(List<GameObject> gameObjects)
         {
             var previousObject = CreatePlatform(gameObjects[0], null);

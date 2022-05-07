@@ -621,6 +621,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3308229268808651848, guid: ddd6defbb20ee4046a2eee0337dd9e17, type: 3}
     - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
+      propertyPath: generationSettings.featuresPreset
+      value: 
+      objectReference: {fileID: 11400000, guid: de8d646ce8cce4e48b196ea37004f067, type: 2}
+    - target: {fileID: 4098360108642682935, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
       propertyPath: generationSettings.platformHeight
       value: 1
       objectReference: {fileID: 0}
