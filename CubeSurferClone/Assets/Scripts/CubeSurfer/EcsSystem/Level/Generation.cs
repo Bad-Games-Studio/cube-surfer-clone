@@ -72,7 +72,7 @@ namespace CubeSurfer.EcsSystem.Level
         private void GenerateLevel(ref GenerationSettings settings)
         {
             _currentDirection = Direction.PositiveZ;
-            _currentMaxScore = 0;
+            _currentMaxScore = 1;
 
             var features = GenerateFeaturesList();
             var gameObjects = FeaturesToGameObjects(features, ref settings);
