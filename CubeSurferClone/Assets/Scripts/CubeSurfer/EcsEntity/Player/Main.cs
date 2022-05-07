@@ -17,12 +17,12 @@ namespace CubeSurfer.EcsEntity.Player
         
         private Leopotam.Ecs.EcsEntity _entity;
 
-        private bool _levelFinished;
+        private bool _finishReached;
         public int ScoreMultiplier { get; private set; }
 
         public void CreateEntityIn(EcsWorld world)
         {
-            _levelFinished = false;
+            _finishReached = false;
             
             _entity = world.NewEntity();
             _entity.Get<EcsComponent.Player.Main.Tag>();
@@ -42,7 +42,7 @@ namespace CubeSurfer.EcsEntity.Player
 
             if (other.TryGetComponent(out FinishLine _))
             {
-                MarkLevelFinish();
+                _finishReached = true;
             }
         }
 
@@ -75,11 +75,6 @@ namespace CubeSurfer.EcsEntity.Player
             
             StartMovingForward();
         }
-        
-        private void MarkLevelFinish()
-        {
-            _levelFinished = true;
-        }
 
         public void SetScoreMultiplier(int newMultiplier)
         {
@@ -90,7 +85,7 @@ namespace CubeSurfer.EcsEntity.Player
         {
             StopMovingForward();
 
-            if (_levelFinished)
+            if (_finishReached)
             {
                 Debug.Log($"Nice! Won a {ScoreMultiplier} multiplier");
                 OnLevelCompleted?.Invoke();
