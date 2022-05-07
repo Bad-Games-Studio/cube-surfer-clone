@@ -12,6 +12,7 @@ namespace CubeSurfer.EcsEntity.Player
     public class Main : MonoBehaviour, IEcsWorldEntity
     {
         public event Action OnLevelCompleted;
+        public event Action OnDied;
         
         [SerializeField] private ForwardMovement forwardMovement;
         
@@ -87,13 +88,11 @@ namespace CubeSurfer.EcsEntity.Player
 
             if (_finishReached)
             {
-                Debug.Log($"Nice! Won a {ScoreMultiplier} multiplier");
                 OnLevelCompleted?.Invoke();
+                return;
             }
-            else
-            {
-                Debug.Log("status: ded");
-            }
+            
+            OnDied?.Invoke();
         }
     }
 }

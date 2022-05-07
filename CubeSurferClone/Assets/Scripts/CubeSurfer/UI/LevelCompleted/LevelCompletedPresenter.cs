@@ -1,15 +1,14 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using LevelEntity = CubeSurfer.EcsEntity.Level;
 using PlayerEntity = CubeSurfer.EcsEntity.Player.Main;
 
-namespace CubeSurfer.UI
+namespace CubeSurfer.UI.LevelCompleted
 {
     public class LevelCompletedPresenter : MonoBehaviour
     {
-        [SerializeField] private LevelEntity level;
         [SerializeField] private PlayerEntity player;
+        [SerializeField] private LevelEntity level;
     
         private MainUiWindow _mainWindow;
         private RewardLabel _rewardLabel;

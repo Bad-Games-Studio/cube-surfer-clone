@@ -1,8 +1,7 @@
-using System;
 using TMPro;
 using UnityEngine;
 
-namespace CubeSurfer.UI
+namespace CubeSurfer.UI.LevelCompleted
 {
     public class RewardLabel : MonoBehaviour
     {
