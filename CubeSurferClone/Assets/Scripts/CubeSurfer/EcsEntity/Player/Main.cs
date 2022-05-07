@@ -1,3 +1,4 @@
+using System;
 using CubeSurfer.CollisionTag;
 using CubeSurfer.PlatformMovement;
 using CubeSurfer.Util.Ecs;
@@ -10,12 +11,14 @@ namespace CubeSurfer.EcsEntity.Player
 {
     public class Main : MonoBehaviour, IEcsWorldEntity
     {
+        public event Action OnLevelCompleted;
+        
         [SerializeField] private ForwardMovement forwardMovement;
         
         private Leopotam.Ecs.EcsEntity _entity;
 
         private bool _levelFinished;
-        private int _scoreMultiplier;
+        public int ScoreMultiplier { get; private set; }
 
         public void CreateEntityIn(EcsWorld world)
         {
@@ -80,14 +83,22 @@ namespace CubeSurfer.EcsEntity.Player
 
         public void SetScoreMultiplier(int newMultiplier)
         {
-            _scoreMultiplier = newMultiplier;
+            ScoreMultiplier = newMultiplier;
         }
         
         public void MarkDead()
         {
             StopMovingForward();
 
-            Debug.Log(_levelFinished ? $"Nice! Won a {_scoreMultiplier} multiplier" : "status: ded");
+            if (_levelFinished)
+            {
+                Debug.Log($"Nice! Won a {ScoreMultiplier} multiplier");
+                OnLevelCompleted?.Invoke();
+            }
+            else
+            {
+                Debug.Log("status: ded");
+            }
         }
     }
 }
