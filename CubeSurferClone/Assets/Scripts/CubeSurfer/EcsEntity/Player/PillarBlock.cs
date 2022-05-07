@@ -3,6 +3,7 @@ using CubeSurfer.Util;
 using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
 using UnityEngine;
+using PlayerMain = CubeSurfer.EcsEntity.Player.Main;
 
 namespace CubeSurfer.EcsEntity.Player
 {
@@ -41,6 +42,11 @@ namespace CubeSurfer.EcsEntity.Player
             {
                 FireTouchedLavaEvent();
             }
+            
+            if (other.TryGetComponent(out BonusZone bonusZone))
+            {
+                SetNewScoreMultiplier(bonusZone.ScoreMultiplier);
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -77,6 +83,12 @@ namespace CubeSurfer.EcsEntity.Player
 
             ref var collisionEvent = ref _entity.Get<EcsComponent.Player.PillarBlock.WallCollisionEvent>();
             collisionEvent.wall = wallObject;
+        }
+
+        private void SetNewScoreMultiplier(int newMultiplier)
+        {
+            var player = transform.parent.parent.GetComponent<PlayerMain>();
+            player.SetScoreMultiplier(newMultiplier);
         }
     }
 }

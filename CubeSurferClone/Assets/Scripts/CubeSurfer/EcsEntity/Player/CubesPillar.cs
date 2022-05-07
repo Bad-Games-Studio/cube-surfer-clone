@@ -62,7 +62,7 @@ namespace CubeSurfer.EcsEntity.Player
             --BlocksAmount;
             if (BlocksAmount == 0)
             {
-                _player.StopMovingForward();
+                _player.MarkDead();
             }
         }
     }

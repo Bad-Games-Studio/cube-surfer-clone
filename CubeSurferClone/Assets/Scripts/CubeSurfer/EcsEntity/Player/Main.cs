@@ -1,3 +1,4 @@
+using CubeSurfer.CollisionTag;
 using CubeSurfer.PlatformMovement;
 using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
@@ -13,8 +14,13 @@ namespace CubeSurfer.EcsEntity.Player
         
         private Leopotam.Ecs.EcsEntity _entity;
 
+        private bool _levelFinished;
+        private int _scoreMultiplier;
+
         public void CreateEntityIn(EcsWorld world)
         {
+            _levelFinished = false;
+            
             _entity = world.NewEntity();
             _entity.Get<EcsComponent.Player.Main.Tag>();
 
@@ -29,6 +35,11 @@ namespace CubeSurfer.EcsEntity.Player
             if (other.TryGetComponent(out TurningZoneTrigger turningZone))
             {
                 StartCircularMovement(turningZone.GetMovementData());
+            }
+
+            if (other.TryGetComponent(out FinishLine _))
+            {
+                MarkLevelFinish();
             }
         }
 
@@ -60,6 +71,23 @@ namespace CubeSurfer.EcsEntity.Player
             _entity.Del<TurningMovement>();
             
             StartMovingForward();
+        }
+        
+        private void MarkLevelFinish()
+        {
+            _levelFinished = true;
+        }
+
+        public void SetScoreMultiplier(int newMultiplier)
+        {
+            _scoreMultiplier = newMultiplier;
+        }
+        
+        public void MarkDead()
+        {
+            StopMovingForward();
+
+            Debug.Log(_levelFinished ? $"Nice! Won a {_scoreMultiplier} multiplier" : "status: ded");
         }
     }
 }
