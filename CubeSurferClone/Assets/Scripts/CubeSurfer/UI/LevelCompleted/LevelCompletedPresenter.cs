@@ -14,13 +14,17 @@ namespace CubeSurfer.UI.LevelCompleted
         private RewardLabel _rewardLabel;
         private Button _continueButton;
 
+        private GemCounterWindow _gemCounter;
+
         private void Awake()
         {
             _mainWindow = GetComponentInChildren<MainUiWindow>();
             _rewardLabel = GetComponentInChildren<RewardLabel>();
             _continueButton = GetComponentInChildren<Button>();
+
+            _gemCounter = GetComponentInChildren<GemCounterWindow>();
             
-            _mainWindow.gameObject.SetActive(false);
+            SetWindowsActive(false);
         }
 
         private void OnEnable()
@@ -37,16 +41,25 @@ namespace CubeSurfer.UI.LevelCompleted
             player.OnLevelCompleted -= OnLevelCompleted;
         }
 
+        private void SetWindowsActive(bool value)
+        {
+            _mainWindow.gameObject.SetActive(value);
+            _gemCounter.gameObject.SetActive(value);
+        }
+        
         private void OnLevelCompleted()
         {
-            _mainWindow.gameObject.SetActive(true);
-            
+            SetWindowsActive(true);
+
             _rewardLabel.SetValues(level.CompletionReward, player.ScoreMultiplier);
+
+            var newGemsValue = _gemCounter.Amount + level.CompletionReward * player.ScoreMultiplier;
+            _gemCounter.Amount = newGemsValue;
         }
         
         private void ContinueGameOnButtonClick()
         {
-            _mainWindow.gameObject.SetActive(false);
+            SetWindowsActive(false);
         }
     }
 }
