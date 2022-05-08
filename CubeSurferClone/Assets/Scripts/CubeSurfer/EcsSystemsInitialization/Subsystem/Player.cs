@@ -11,10 +11,8 @@ namespace CubeSurfer.EcsSystemsInitialization.Subsystem
         public void AddSystemsTo(EcsSystems systems, EcsSystems fixedUpdateSystems)
         {
             systems
-                .Add(new EcsSystem.Player.Main.InitSystem())
                 .Add(new EcsSystem.Player.Main.ForwardMovement())
-                .Add(new EcsSystem.Player.Main.CircularMovement())
-                .Inject(player);
+                .Add(new EcsSystem.Player.Main.CircularMovement());
 
             AddCubesPillarSystemsTo(systems, fixedUpdateSystems);
         }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using LevelEntity = CubeSurfer.EcsEntity.Level;
@@ -7,9 +8,8 @@ namespace CubeSurfer.UI.LevelCompleted
 {
     public class LevelCompletedPresenter : MonoBehaviour
     {
-        [SerializeField] private PlayerEntity player;
-        [SerializeField] private LevelEntity level;
-    
+        [SerializeField] private GameManager gameManager;
+        
         private MainUiWindow _mainWindow;
         private RewardLabel _rewardLabel;
         private Button _continueButton;
@@ -29,16 +29,28 @@ namespace CubeSurfer.UI.LevelCompleted
 
         private void OnEnable()
         {
+            gameManager.OnEntitiesCreated += SubscribeToEntities;
+            gameManager.OnEntitiesDeleting += UnsubscribeFromEntities;
+            
             _continueButton.onClick.AddListener(ContinueGameOnButtonClick);
-
-            player.OnLevelCompleted += OnLevelCompleted;
         }
 
         private void OnDisable()
         {
-            _continueButton.onClick.RemoveListener(ContinueGameOnButtonClick);
+            gameManager.OnEntitiesCreated -= SubscribeToEntities;
+            gameManager.OnEntitiesDeleting -= UnsubscribeFromEntities;
             
-            player.OnLevelCompleted -= OnLevelCompleted;
+            _continueButton.onClick.RemoveListener(ContinueGameOnButtonClick);
+        }
+        
+        private void SubscribeToEntities()
+        {
+            gameManager.Player.OnLevelCompleted += OnLevelCompleted;
+        }
+        
+        private void UnsubscribeFromEntities()
+        {
+            gameManager.Player.OnLevelCompleted -= OnLevelCompleted;
         }
 
         private void SetWindowsActive(bool value)
@@ -51,9 +63,10 @@ namespace CubeSurfer.UI.LevelCompleted
         {
             SetWindowsActive(true);
 
-            _rewardLabel.SetValues(level.CompletionReward, player.ScoreMultiplier);
+            _rewardLabel.SetValues(gameManager.Level.CompletionReward, gameManager.Player.ScoreMultiplier);
 
-            var newGemsValue = _gemCounter.Amount + level.CompletionReward * player.ScoreMultiplier;
+            var newGemsValue =
+                _gemCounter.Amount + gameManager.Level.CompletionReward * gameManager.Player.ScoreMultiplier;
             _gemCounter.Amount = newGemsValue;
         }
         

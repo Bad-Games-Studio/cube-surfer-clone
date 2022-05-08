@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c92cd53c3515461ab784bd3fc524458b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  completionReward: 15
   generationSettings:
     featuresPreset: {fileID: 11400000, guid: e2d89eaf888f6db4b9a01b8990cd49cf, type: 2}
     objectsPreset: {fileID: 11400000, guid: fe5b607ce436ac74184c6f542b08dc69, type: 2}

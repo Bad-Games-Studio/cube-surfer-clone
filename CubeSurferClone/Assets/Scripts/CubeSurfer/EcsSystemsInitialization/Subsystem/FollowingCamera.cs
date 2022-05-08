@@ -10,9 +10,6 @@ namespace CubeSurfer.EcsSystemsInitialization.Subsystem
         
         public void AddSystemsTo(EcsSystems systems, EcsSystems fixedUpdateSystems)
         {
-            systems.Add(new EcsSystem.Camera.InitSystem())
-                .Inject(followingCamera);
-
             systems.Add(new EcsSystem.Camera.FollowTarget());
         }
     }

@@ -31,6 +31,9 @@ namespace CubeSurfer.EcsEntity.Player
             ref var transformRef = ref _entity.Get<EcsComponent.TransformRef>();
             transformRef.Transform = transform;
 
+            var pillar = GetComponentInChildren<CubesPillar>();
+            pillar.CreateEntityIn(world);
+            
             StartMovingForward();
         }
 

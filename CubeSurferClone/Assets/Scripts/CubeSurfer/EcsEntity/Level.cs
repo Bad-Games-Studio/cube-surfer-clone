@@ -1,6 +1,9 @@
+using CubeSurfer.EcsComponent;
+using CubeSurfer.EcsComponent.Level;
 using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
 using UnityEngine;
+using LevelGenerationSettings = CubeSurfer.EcsComponent.Level.GenerationSettings;
 
 namespace CubeSurfer.EcsEntity
 {
@@ -9,15 +12,18 @@ namespace CubeSurfer.EcsEntity
         [SerializeField] private int completionReward;
         public int CompletionReward => completionReward;
         
-        [SerializeField] private EcsComponent.Level.GenerationSettings generationSettings;
+        [SerializeField] private LevelGenerationSettings generationSettings;
         public ref EcsComponent.Level.GenerationSettings GenerationSettings => ref generationSettings;
         
         public void CreateEntityIn(EcsWorld world)
         {
             var entity = world.NewEntity();
-            entity.Get<EcsComponent.Level.Tag.Main>();
+            entity.Get<Tag>();
 
-            ref var levelGenerationSettings = ref entity.Get<EcsComponent.Level.GenerationSettings>();
+            ref var transformRef = ref entity.Get<TransformRef>();
+            transformRef.Transform = transform;
+            
+            ref var levelGenerationSettings = ref entity.Get<LevelGenerationSettings>();
             levelGenerationSettings = generationSettings;
         }
     }

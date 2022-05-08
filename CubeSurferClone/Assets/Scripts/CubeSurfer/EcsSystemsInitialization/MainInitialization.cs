@@ -1,20 +1,23 @@
+using System;
 using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
 using UnityEngine;
 
 namespace CubeSurfer.EcsSystemsInitialization
 {
-    public class EcsSystemsInitialization : MonoBehaviour
+    public class MainInitialization : MonoBehaviour
     {
-        private EcsWorld _world;
+        public event Action OnSystemInitFinished;
+        
+        public EcsWorld World { get; private set; }
         private EcsSystems _systems;
         private EcsSystems _fixedUpdateSystems;
         
         private void Start()
         {
-            _world = new EcsWorld();
-            _systems = new EcsSystems(_world);
-            _fixedUpdateSystems = new EcsSystems(_world);
+            World = new EcsWorld();
+            _systems = new EcsSystems(World);
+            _fixedUpdateSystems = new EcsSystems(World);
 
             var subsystems = GetComponentsInChildren<ISystemStartup>();
             foreach (var subsystem in subsystems)
@@ -24,6 +27,8 @@ namespace CubeSurfer.EcsSystemsInitialization
 
             _systems.Init();
             _fixedUpdateSystems.Init();
+            
+            OnSystemInitFinished?.Invoke();
         }
 
         private void Update()
@@ -39,7 +44,7 @@ namespace CubeSurfer.EcsSystemsInitialization
         private void OnDestroy()
         {
             _systems.Destroy();
-            _world.Destroy();
+            World.Destroy();
         }
     }
 }

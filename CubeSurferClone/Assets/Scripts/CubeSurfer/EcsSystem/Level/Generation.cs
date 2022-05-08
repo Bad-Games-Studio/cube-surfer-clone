@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CubeSurfer.EcsComponent;
 using CubeSurfer.EcsComponent.Level;
 using CubeSurfer.LevelGeneration;
 using CubeSurfer.Snapping;
@@ -9,13 +10,15 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
 using UnityRandom = UnityEngine.Random;
+using LevelTag = CubeSurfer.EcsComponent.Level.Tag;
 
 namespace CubeSurfer.EcsSystem.Level
 {
-    public class Generation : IEcsInitSystem
+    public class Generation : IEcsRunSystem
     {
-        private EcsEntity.Level _level;
-        
+        private EcsFilter<LevelTag, TransformRef, GenerationSettings> _filter;
+        private Transform _currentLevel;
+
         private Direction _currentDirection;
         private int _currentMaxScore;
         private List<FeatureBag> _availableFeatures;
@@ -26,11 +29,23 @@ namespace CubeSurfer.EcsSystem.Level
             PositiveZ
         }
         
-        
-        public void Init()
+        public void Run()
         {
-            ref var settings = ref _level.GenerationSettings;
-            
+            foreach (var i in _filter)
+            {
+                var entity = _filter.GetEntity(i);
+                
+                var transformRef = entity.Get<TransformRef>();
+                _currentLevel = transformRef.Transform;
+                
+                ref var generationSettings = ref entity.Get<GenerationSettings>();
+                
+                StartGeneration(ref generationSettings);
+            }
+        }
+        
+        private void StartGeneration(ref GenerationSettings settings)
+        {
             CreateAvailableFeaturesList(ref settings);
 
             GenerateLevel(ref settings);
@@ -205,7 +220,7 @@ namespace CubeSurfer.EcsSystem.Level
         {
             var platform = 
                 UnityObject.Instantiate(newPlatform, Vector3.zero, quaternion.identity);
-            platform.transform.parent = _level.transform;
+            platform.transform.parent = _currentLevel;
 
             if (previousPlatform == null)
             {

@@ -19,5 +19,10 @@ namespace CubeSurfer.EcsEntity
             ref var settingsRef = ref entity.Get<EcsComponent.Camera.Settings>();
             settingsRef = settings;
         }
+
+        public void SetTarget(Transform target)
+        {
+            settings.target = target;
+        }
     }
 }
