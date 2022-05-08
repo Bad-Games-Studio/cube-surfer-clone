@@ -23,12 +23,9 @@ namespace CubeSurfer.EcsEntity.Player
             rigidbodyRef.Rigidbody = transform.GetComponent<Rigidbody>();
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-            if (_entity.IsWorldAlive())
-            {
-                _entity.Destroy();
-            }
+            _entity.SafeDestroy();
         }
 
         private void OnTriggerEnter(Collider other)

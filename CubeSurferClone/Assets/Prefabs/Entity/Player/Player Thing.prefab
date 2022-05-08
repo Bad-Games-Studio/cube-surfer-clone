@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forwardMovement:
-    speed: 5
+    speed: 10
     isMoving: 0
 --- !u!1 &2101753949890367633
 GameObject:

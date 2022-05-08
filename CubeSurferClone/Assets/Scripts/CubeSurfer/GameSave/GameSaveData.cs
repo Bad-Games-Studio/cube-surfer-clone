@@ -7,14 +7,16 @@ namespace CubeSurfer.GameSave
 {
     public struct GameSaveData
     {
-        private const int MaxSupportedVersion = 1;
+        private const int MaxSupportedVersion = 2;
         private static string Folder => $"{Application.dataPath}/Saves";
         private static string Path => $"{Folder}/save.dat";
 
         private int LastReadVersion { get; set; }
+        
         public int GemsAmount { get; set; }
-        
-        
+        public int LevelIndex { get; set; }
+
+
         public static readonly GameSaveData DefaultSettings = new GameSaveData
         {
             LastReadVersion = MaxSupportedVersion,
@@ -82,6 +84,7 @@ namespace CubeSurfer.GameSave
             return version switch
             {
                 1 => new V1(),
+                2 => new V2(),
                 _ => throw new ArgumentOutOfRangeException(nameof(version), version, 
                     $"Save file version must be between 1 and {MaxSupportedVersion} (inclusively).")
             };

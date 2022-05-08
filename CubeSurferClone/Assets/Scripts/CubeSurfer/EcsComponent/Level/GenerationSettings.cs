@@ -1,8 +1,6 @@
 using System;
 using CubeSurfer.LevelGeneration;
 using CubeSurfer.LevelGeneration.Presets;
-using CubeSurfer.LevelGeneration.Presets.Features;
-using CubeSurfer.LevelGeneration.Presets.Objects;
 using UnityEngine;
 
 namespace CubeSurfer.EcsComponent.Level
@@ -12,7 +10,7 @@ namespace CubeSurfer.EcsComponent.Level
     {
         public FeaturesPreset featuresPreset;
 
-        public LevelObjectsPreset objectsPreset;
+        public ObjectsPreset objectsPreset;
 
 
         public int MinPlayerScore => featuresPreset.minPlayerScore;

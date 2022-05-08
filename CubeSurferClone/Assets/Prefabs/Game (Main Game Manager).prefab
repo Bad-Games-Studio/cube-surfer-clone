@@ -46,3 +46,15 @@ MonoBehaviour:
   playerPrefab: {fileID: 2101753949025559794, guid: c5597e7c8993aa045aeca237d35c2e3d, type: 3}
   levelPrefab: {fileID: 4098360108642682921, guid: 4692f1f6d5c81854c8760f5118f86e70, type: 3}
   followingCameraPrefab: {fileID: 9148445122609222321, guid: 84948280bef5410428cac65920253e47, type: 3}
+  featuresPreset:
+  - {fileID: 11400000, guid: 7e143cb30a9b09445837e52f949ddc32, type: 2}
+  - {fileID: 11400000, guid: e072416708c958a4eb4bc7dba5015161, type: 2}
+  - {fileID: 11400000, guid: c3a8f107f9e39c742b0623baa84193da, type: 2}
+  - {fileID: 11400000, guid: c3a8f107f9e39c742b0623baa84193da, type: 2}
+  - {fileID: 11400000, guid: ff9c427a002da7a4da7a54ad9d7a5cec, type: 2}
+  levelObjectsPresets:
+  - {fileID: 11400000, guid: f732de06e3e750b4e97263f66fd2a05f, type: 2}
+  - {fileID: 11400000, guid: f732de06e3e750b4e97263f66fd2a05f, type: 2}
+  - {fileID: 11400000, guid: 994e2f31dbd7d4b4291d4226ad623ef7, type: 2}
+  - {fileID: 11400000, guid: 994e2f31dbd7d4b4291d4226ad623ef7, type: 2}
+  - {fileID: 11400000, guid: acd099cfdb7dda048a19864f3040942b, type: 2}

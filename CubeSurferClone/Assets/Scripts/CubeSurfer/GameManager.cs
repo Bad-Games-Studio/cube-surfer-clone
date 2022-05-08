@@ -1,7 +1,9 @@
 using System;
 using CubeSurfer.GameSave;
+using CubeSurfer.LevelGeneration.Presets;
 using CubeSurfer.Util.Ecs;
 using UnityEngine;
+using UnityEngine.Assertions;
 using EcsMainSystemsInitialization = CubeSurfer.EcsSystemsInitialization.MainInitialization;
 using FollowingCameraEntity = CubeSurfer.EcsEntity.FollowingCamera;
 using PlayerEntity = CubeSurfer.EcsEntity.Player.Main;
@@ -9,7 +11,7 @@ using LevelEntity = CubeSurfer.EcsEntity.Level;
 
 namespace CubeSurfer
 {
-    public class GameManager : MonoBehaviour
+    public partial class GameManager : MonoBehaviour
     {
         public event Action OnEntitiesCreated;
         public event Action OnEntitiesDeleting;
@@ -26,27 +28,26 @@ namespace CubeSurfer
             set => _gameSaveData.GemsAmount = Mathf.Clamp(value, 0, MaxGemsAmount);
         }
         
+        [Header("Prefabs")]
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private GameObject levelPrefab;
         [SerializeField] private GameObject followingCameraPrefab;
+        
+        [Header("Presets")]
+        [SerializeField] private FeaturesPreset[] featuresPreset;
+        [SerializeField] private ObjectsPreset[] levelObjectsPresets;
+        
         
         private EcsMainSystemsInitialization _systemsInitialization;
         private Transform _thisTransform;
 
         private GameSaveData _gameSaveData;
 
-        public void NextLevel()
-        {
-            _gameSaveData.Save();
-        }
-
-        public void RestartLevel()
-        {
-            
-        }
-
         private void Awake()
         {
+            Assert.IsTrue(featuresPreset.Length == levelObjectsPresets.Length);
+            Assert.IsTrue(featuresPreset.Length >= 3);
+            
             _thisTransform = transform;
             
             _systemsInitialization = FindObjectOfType<EcsMainSystemsInitialization>();
@@ -63,78 +64,36 @@ namespace CubeSurfer
         {
             _systemsInitialization.OnSystemInitFinished -= StartGameFirstTime;
         }
-
+        
         private void StartGameFirstTime()
         {
             CreateEntities();
         }
-
-        private void CreateEntities()
-        {
-            InstantiatePrefabs();
-            OnEntitiesCreated?.Invoke();
-        }
-
-        private void DeleteEntities()
-        {
-            OnEntitiesDeleting?.Invoke();
-            DestroyPrefabs();
-        }
-
-        private void InstantiatePrefabs()
-        {
-            CreateLevel();
-            CreatePlayer();
-            CreateFollowingCamera();
-
-            for (var i = 0; i < _thisTransform.childCount; ++i)
-            {
-                var child = _thisTransform.GetChild(i);
-                var ecsEntity = child.GetComponent<IEcsWorldEntity>();
-                ecsEntity.CreateEntityIn(_systemsInitialization.World);
-            }
-        }
         
-        private void DestroyPrefabs()
+        public void NextLevel()
         {
-            Destroy(FollowingCamera);
-            Destroy(Player);
-            Destroy(Level);
-        }
-
-        private void CreateLevel()
-        {
-            var level = Instantiate(levelPrefab, Vector3.zero, Quaternion.identity);
-            var levelTransform = level.transform;
-            levelTransform.parent = _thisTransform;
+            _gameSaveData.LevelIndex = NextLevelIndex(_gameSaveData.LevelIndex);
             
-            Level = levelTransform.GetComponent<LevelEntity>();
+            _gameSaveData.Save();
+            RestartLevel();
         }
 
-        private void CreatePlayer()
+        public void RestartLevel()
         {
-            var player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-            var playerTransform = player.transform;
-            playerTransform.parent = _thisTransform;
-
-            var levelTransform = Level.transform;
-            var levelOffset = levelTransform.localScale.y / 2;
-            var playerOffset = playerTransform.localScale.y / 2;
-            var playerPosition = levelTransform.position;
-            playerPosition.y += levelOffset + playerOffset;
-            playerTransform.position = playerPosition;
-
-            Player = playerTransform.GetComponent<PlayerEntity>();
+            DeleteEntities();
+            CreateEntities();
         }
 
-        private void CreateFollowingCamera()
+        // 0-1 - "tutorial", 2-4 - repeated.
+        private int NextLevelIndex(int currentIndex)
         {
-            var followingCamera = Instantiate(followingCameraPrefab, Vector3.zero, Quaternion.identity);
-            var followingCameraTransform = followingCamera.transform;
-            followingCameraTransform.parent = _thisTransform;
+            currentIndex = Mathf.Clamp(currentIndex, 0, 4);
+            if (currentIndex < featuresPreset.Length - 1)
+            {
+                return currentIndex + 1;
+            }
             
-            FollowingCamera = followingCameraTransform.GetComponent<FollowingCameraEntity>();
-            FollowingCamera.SetTarget(Player.transform);
+            return 2; 
         }
     }
 }

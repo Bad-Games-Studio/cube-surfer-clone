@@ -1,3 +1,4 @@
+using System;
 using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
 using UnityEngine;
@@ -40,6 +41,11 @@ namespace CubeSurfer.EcsEntity.Player
             
             ref var pillarMovementRef = ref _entity.Get<EcsComponent.Player.CubesPillar.HorizontalMovement>();
             pillarMovementRef = horizontalMovement;
+        }
+
+        private void OnDisable()
+        {
+            _entity.SafeDestroy();
         }
 
         public void AddPillarBlock()

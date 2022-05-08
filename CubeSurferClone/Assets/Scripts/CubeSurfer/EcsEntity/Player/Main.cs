@@ -37,6 +37,11 @@ namespace CubeSurfer.EcsEntity.Player
             StartMovingForward();
         }
 
+        private void OnDisable()
+        {
+            _entity.SafeDestroy();
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out TurningZoneTrigger turningZone))

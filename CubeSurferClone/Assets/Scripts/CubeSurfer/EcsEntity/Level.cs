@@ -10,21 +10,30 @@ namespace CubeSurfer.EcsEntity
     public class Level : MonoBehaviour, IEcsWorldEntity
     {
         [SerializeField] private int completionReward;
-        public int CompletionReward => completionReward;
-        
         [SerializeField] private LevelGenerationSettings generationSettings;
-        public ref EcsComponent.Level.GenerationSettings GenerationSettings => ref generationSettings;
+
+        public int CompletionReward => completionReward;
+        public ref LevelGenerationSettings GenerationSettings => ref generationSettings;
+        
+        
+        private Leopotam.Ecs.EcsEntity _entity;
+        
         
         public void CreateEntityIn(EcsWorld world)
         {
-            var entity = world.NewEntity();
-            entity.Get<Tag>();
+            _entity = world.NewEntity();
+            _entity.Get<Tag>();
 
-            ref var transformRef = ref entity.Get<TransformRef>();
+            ref var transformRef = ref _entity.Get<TransformRef>();
             transformRef.Transform = transform;
             
-            ref var levelGenerationSettings = ref entity.Get<LevelGenerationSettings>();
+            ref var levelGenerationSettings = ref _entity.Get<LevelGenerationSettings>();
             levelGenerationSettings = generationSettings;
+        }
+
+        private void OnDisable()
+        {
+            _entity.SafeDestroy();
         }
     }
 }
