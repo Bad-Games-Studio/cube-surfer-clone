@@ -13,8 +13,8 @@ namespace CubeSurfer.EcsSystem.Player.PillarCube
         {
             foreach (var i in _filter)
             {
-                var entity = _filter.GetEntity(i);
-                var transformRef = entity.Get<TransformRef>();
+                ref var entity = ref _filter.GetEntity(i);
+                ref var transformRef = ref entity.Get<TransformRef>();
                 
                 AdjustPosition(transformRef.Transform);    
             }

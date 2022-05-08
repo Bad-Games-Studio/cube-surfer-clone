@@ -15,7 +15,7 @@ namespace CubeSurfer.EcsSystem.Player.Main
         {
             foreach (var i in _filter)
             {
-                var entity = _filter.GetEntity(i);
+                ref var entity = ref _filter.GetEntity(i);
                 ref var transformRef = ref entity.Get<TransformRef>();
                 ref var circularMovementRef = ref entity.Get<TurningMovement>();
                 

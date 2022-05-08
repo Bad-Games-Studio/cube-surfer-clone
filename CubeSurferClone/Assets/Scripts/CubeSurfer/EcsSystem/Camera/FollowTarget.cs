@@ -15,8 +15,8 @@ namespace CubeSurfer.EcsSystem.Camera
         {
             foreach (var i in _filter)
             {
-                var entity = _filter.GetEntity(i);
-                var transformRef = entity.Get<TransformRef>();
+                ref var entity = ref _filter.GetEntity(i);
+                ref var transformRef = ref entity.Get<TransformRef>();
                 ref var settings = ref entity.Get<MovementSettings>();
                 HandleMovement(transformRef.Transform, ref settings);
             }

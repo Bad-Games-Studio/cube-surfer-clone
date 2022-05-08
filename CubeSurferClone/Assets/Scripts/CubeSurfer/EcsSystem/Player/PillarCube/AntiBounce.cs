@@ -13,8 +13,8 @@ namespace CubeSurfer.EcsSystem.Player.PillarCube
         {
             foreach (var i in _filter)
             {
-                var entity = _filter.GetEntity(i);
-                var rigidbodyRef = entity.Get<RigidbodyRef>();
+                ref var entity = ref _filter.GetEntity(i);
+                ref var rigidbodyRef = ref entity.Get<RigidbodyRef>();
                 
                 CancelBouncing(rigidbodyRef.Rigidbody);
             }

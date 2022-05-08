@@ -33,9 +33,9 @@ namespace CubeSurfer.EcsSystem.Level
         {
             foreach (var i in _filter)
             {
-                var entity = _filter.GetEntity(i);
+                ref var entity = ref _filter.GetEntity(i);
                 
-                var transformRef = entity.Get<TransformRef>();
+                ref var transformRef = ref entity.Get<TransformRef>();
                 _currentLevel = transformRef.Transform;
                 
                 ref var generationSettings = ref entity.Get<GenerationSettings>();

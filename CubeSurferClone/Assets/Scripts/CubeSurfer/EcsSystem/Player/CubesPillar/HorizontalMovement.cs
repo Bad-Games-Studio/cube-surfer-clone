@@ -14,8 +14,8 @@ namespace CubeSurfer.EcsSystem.Player.CubesPillar
         {
             foreach (var i in _filter)
             {
-                var entity = _filter.GetEntity(i);
-                var transformRef = entity.Get<TransformRef>();
+                ref var entity = ref _filter.GetEntity(i);
+                ref var transformRef = ref entity.Get<TransformRef>();
                 ref var cubesPillarMovement = ref entity.Get<MovementComponent>();
                 HandlePillarMovement(transformRef.Transform, ref cubesPillarMovement);
             }

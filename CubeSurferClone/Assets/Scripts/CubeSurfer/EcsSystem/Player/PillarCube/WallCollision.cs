@@ -14,16 +14,15 @@ namespace CubeSurfer.EcsSystem.Player.PillarCube
         {
             foreach (var i in _filter)
             {
-                var entity = _filter.GetEntity(i);
-                var transformRef = entity.Get<TransformRef>();
-                var @event = entity.Get<WallCollisionEvent>();
-                
-                HandleWallCollisionEvent(transformRef.Transform, ref @event);
+                ref var entity = ref _filter.GetEntity(i);
+                ref var transformRef = ref entity.Get<TransformRef>();
+
+                HandleWallCollisionEvent(transformRef.Transform);
             }
         }
 
         
-        private static void HandleWallCollisionEvent(Transform pillarBlock, ref WallCollisionEvent @event)
+        private static void HandleWallCollisionEvent(Transform pillarBlock)
         {
             if (pillarBlock.parent != null)
             {
