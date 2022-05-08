@@ -23,6 +23,17 @@ namespace CubeSurfer.EcsSystem.Player.CubesPillar
 
         private static void HandlePillarMovement(Transform transform, ref MovementComponent horizontalMovement)
         {
+            var direction = Input.touchCount > 0 ? GetDirectionFromTouch() : GetDirectionFromKeyboard();
+            
+            var localPosition = transform.localPosition;
+            localPosition.x += direction * horizontalMovement.movementSensitivity * Time.deltaTime;
+            localPosition.x = horizontalMovement.ValidateHorizontalPosition(localPosition.x);
+            
+            transform.localPosition = localPosition;
+        }
+
+        private static int GetDirectionFromKeyboard()
+        {
             var direction = 0;
             if (Input.GetKey(KeyCode.LeftArrow))
             {
@@ -33,12 +44,19 @@ namespace CubeSurfer.EcsSystem.Player.CubesPillar
             {
                 direction += 1;
             }
-            
-            var localPosition = transform.localPosition;
-            localPosition.x += direction * horizontalMovement.movementSensitivity * Time.deltaTime;
-            localPosition.x = horizontalMovement.ValidateHorizontalPosition(localPosition.x);
-            
-            transform.localPosition = localPosition;
+
+            return direction;
+        }
+
+        private static int GetDirectionFromTouch()
+        {
+            var deltaX = Input.touches[0].deltaPosition.x;
+            if (Mathf.Abs(deltaX) > 5)
+            {
+                return (int) Mathf.Sign(deltaX);
+            }
+
+            return 0;
         }
     }
 }

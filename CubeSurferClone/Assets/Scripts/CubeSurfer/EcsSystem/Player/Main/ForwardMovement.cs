@@ -29,11 +29,14 @@ namespace CubeSurfer.EcsSystem.Player.Main
                 player.position += Time.deltaTime * forwardMovement.speed * player.forward;
                 return;
             }
-
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+            
+            if (AnyKeyboardInput || AnyTouchInput)
             {
                 forwardMovement.isMoving = true;
             }
         }
+
+        private static bool AnyKeyboardInput => Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow);
+        private static bool AnyTouchInput => Input.touchCount > 0;
     }
 }
