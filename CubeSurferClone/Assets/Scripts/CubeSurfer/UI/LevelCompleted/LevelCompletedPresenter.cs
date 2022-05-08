@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using CubeSurfer.UI;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using LevelEntity = CubeSurfer.EcsEntity.Level;
@@ -9,6 +12,11 @@ namespace CubeSurfer.UI.LevelCompleted
     public class LevelCompletedPresenter : MonoBehaviour
     {
         [SerializeField] private GameManager gameManager;
+        
+        [Header("Game animation")]
+        [SerializeField] private GameObject gemPrefab;
+        [SerializeField] private float animationTime;
+        [SerializeField] private float postAnimationDelay;
         
         private MainUiWindow _mainWindow;
         private RewardLabel _rewardLabel;
@@ -66,11 +74,30 @@ namespace CubeSurfer.UI.LevelCompleted
             _rewardLabel.SetValues(gameManager.Level.CompletionReward, gameManager.Player.ScoreMultiplier);
 
             gameManager.GemsAmount += gameManager.Level.CompletionReward * gameManager.Player.ScoreMultiplier;
-            _gemCounter.Amount = gameManager.GemsAmount;
+            
         }
         
         private void ContinueGameOnButtonClick()
         {
+            StartCoroutine(AddGems());
+        }
+
+        private IEnumerator AddGems()
+        {
+            var startPosition = GetComponentInChildren<GemAnimation.SourceObject>().transform.position;
+            
+            var newGem = Instantiate(gemPrefab, startPosition, Quaternion.identity);
+            var gemTransform = newGem.GetComponent<RectTransform>();
+            gemTransform.SetParent(_mainWindow.transform);
+
+            var endPosition = GetComponentInChildren<GemAnimation.DestinationObject>().transform.position;
+            newGem.transform.DOMove(endPosition, animationTime).OnComplete(() =>
+            {
+                _gemCounter.Amount = gameManager.GemsAmount;
+            });
+
+            yield return new WaitForSeconds(postAnimationDelay);
+            
             SetWindowsActive(false);
             gameManager.NextLevel();
         }

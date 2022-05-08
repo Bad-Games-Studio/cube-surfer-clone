@@ -484,6 +484,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Death Presenter
       objectReference: {fileID: 0}
+    - target: {fileID: 481817570128992821, guid: c3b60443f486fd3419ea29f8f548e963, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1733132491398251100, guid: c3b60443f486fd3419ea29f8f548e963, type: 3}
       propertyPath: level
       value: 
@@ -651,6 +655,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1264643317}
     m_Modifications:
+    - target: {fileID: 5093961131016214611, guid: c2905ff40ffbde04d90313af9552ba5f, type: 3}
+      propertyPath: gem
+      value: 
+      objectReference: {fileID: 5288859966901273901, guid: ef2f55cb22498614da7391dd5e94ac37, type: 3}
     - target: {fileID: 5093961131016214611, guid: c2905ff40ffbde04d90313af9552ba5f, type: 3}
       propertyPath: level
       value: 
