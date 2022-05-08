@@ -2,9 +2,9 @@ using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
 using UnityEngine;
 
-namespace CubeSurfer.Initialization
+namespace CubeSurfer.EcsSystemsInitialization
 {
-    public class Scene : MonoBehaviour
+    public class EcsSystemsInitialization : MonoBehaviour
     {
         private EcsWorld _world;
         private EcsSystems _systems;
