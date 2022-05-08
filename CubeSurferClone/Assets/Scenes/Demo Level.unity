@@ -795,7 +795,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7270822327145226868, guid: 00225cdd30d34a94baeddd1658b46d0e, type: 3}
       propertyPath: m_Name
-      value: Initialization
+      value: ECS Systems Initialization
       objectReference: {fileID: 0}
     - target: {fileID: 7270822327145226871, guid: 00225cdd30d34a94baeddd1658b46d0e, type: 3}
       propertyPath: m_RootOrder

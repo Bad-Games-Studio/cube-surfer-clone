@@ -6,8 +6,6 @@ namespace CubeSurfer.EcsSystemsInitialization.Subsystem
 {
     public class Player : MonoBehaviour, ISystemStartup
     {
-        [SerializeField] private EcsEntity.Player.Main player;
-        
         public void AddSystemsTo(EcsSystems systems, EcsSystems fixedUpdateSystems)
         {
             systems

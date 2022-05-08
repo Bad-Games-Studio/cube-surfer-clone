@@ -12,18 +12,36 @@ namespace CubeSurfer
     {
         public event Action OnEntitiesCreated;
         public event Action OnEntitiesDeleting;
-        
-        [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private GameObject levelPrefab;
-        [SerializeField] private GameObject followingCameraPrefab;
 
         public LevelEntity Level { get; private set; }
         public PlayerEntity Player { get; private set; }
         public FollowingCameraEntity FollowingCamera { get; private set; }
+
+        public const int MaxGemsAmount = 999;
+        public int GemsAmount { get; private set; }
+        
+        [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private GameObject levelPrefab;
+        [SerializeField] private GameObject followingCameraPrefab;
         
         private EcsMainSystemsInitialization _systemsInitialization;
         private Transform _thisTransform;
 
+        public void NextLevel()
+        {
+            
+        }
+
+        public void RestartLevel()
+        {
+            
+        }
+
+        public void AddGems(int amount)
+        {
+            GemsAmount = Mathf.Clamp(GemsAmount + amount, 0, MaxGemsAmount);
+        }
+        
         private void Awake()
         {
             _thisTransform = transform;
@@ -43,8 +61,19 @@ namespace CubeSurfer
 
         private void StartGameFirstTime()
         {
+            CreateEntities();
+        }
+
+        private void CreateEntities()
+        {
             InstantiatePrefabs();
             OnEntitiesCreated?.Invoke();
+        }
+
+        private void DeleteEntities()
+        {
+            OnEntitiesDeleting?.Invoke();
+            DestroyPrefabs();
         }
 
         private void InstantiatePrefabs()
@@ -59,6 +88,13 @@ namespace CubeSurfer
                 var ecsEntity = child.GetComponent<IEcsWorldEntity>();
                 ecsEntity.CreateEntityIn(_systemsInitialization.World);
             }
+        }
+        
+        private void DestroyPrefabs()
+        {
+            Destroy(FollowingCamera);
+            Destroy(Player);
+            Destroy(Level);
         }
 
         private void CreateLevel()
