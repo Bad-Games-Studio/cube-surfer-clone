@@ -1,9 +1,14 @@
 using CubeSurfer.CollisionTag;
+using CubeSurfer.EcsComponent;
 using CubeSurfer.Util;
 using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
 using UnityEngine;
 using PlayerMain = CubeSurfer.EcsEntity.Player.Main;
+using PillarBlockTag = CubeSurfer.EcsComponent.Player.PillarBlock.Tag;
+using BlockCollectedEvent = CubeSurfer.EcsComponent.Player.PillarBlock.BlockCollectedEvent;
+using TouchedLavaEvent = CubeSurfer.EcsComponent.Player.PillarBlock.TouchedLavaEvent;
+using WallCollisionEvent = CubeSurfer.EcsComponent.Player.PillarBlock.WallCollisionEvent;
 
 namespace CubeSurfer.EcsEntity.Player
 {
@@ -14,12 +19,12 @@ namespace CubeSurfer.EcsEntity.Player
         public void CreateEntityIn(EcsWorld world)
         {
             _entity = world.NewEntity();
-            _entity.Get<EcsComponent.Player.PillarBlock.Tag>();
+            _entity.Get<PillarBlockTag>();
 
-            ref var transformRef = ref _entity.Get<EcsComponent.TransformRef>();
+            ref var transformRef = ref _entity.Get<TransformRef>();
             transformRef.Transform = transform;
 
-            ref var rigidbodyRef = ref _entity.Get<EcsComponent.RigidbodyRef>();
+            ref var rigidbodyRef = ref _entity.Get<RigidbodyRef>();
             rigidbodyRef.Rigidbody = transform.GetComponent<Rigidbody>();
         }
 
@@ -57,13 +62,13 @@ namespace CubeSurfer.EcsEntity.Player
 
         private void FireBlockCollectedEvent(CollectiblePillarBlock block)
         {
-            ref var blockCollectedEvent = ref _entity.Get<EcsComponent.Player.PillarBlock.BlockCollectedEvent>();
+            ref var blockCollectedEvent = ref _entity.Get<BlockCollectedEvent>();
             blockCollectedEvent.block = block;
         }
 
         private void FireTouchedLavaEvent()
         {
-            _entity.Get<EcsComponent.Player.PillarBlock.TouchedLavaEvent>();
+            _entity.Get<TouchedLavaEvent>();
         }
         
         private void FireWallCollisionEvent(Transform wallObject, Collision collision)
@@ -78,13 +83,12 @@ namespace CubeSurfer.EcsEntity.Player
                 return;
             }
 
-            ref var collisionEvent = ref _entity.Get<EcsComponent.Player.PillarBlock.WallCollisionEvent>();
-            collisionEvent.wall = wallObject;
+            _entity.Get<WallCollisionEvent>();
         }
 
         private void SetNewScoreMultiplier(int newMultiplier)
         {
-            var player = transform.parent.parent.GetComponent<PlayerMain>();
+            var player = transform.GetComponentInParent<PlayerMain>();
             player.SetScoreMultiplier(newMultiplier);
         }
     }

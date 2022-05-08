@@ -1,7 +1,5 @@
 using System;
-using CubeSurfer.LevelGeneration;
 using CubeSurfer.LevelGeneration.Presets;
-using UnityEngine;
 
 namespace CubeSurfer.EcsComponent.Level
 {

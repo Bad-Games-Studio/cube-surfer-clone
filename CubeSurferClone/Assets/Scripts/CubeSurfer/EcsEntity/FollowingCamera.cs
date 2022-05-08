@@ -1,7 +1,8 @@
-using System;
+using CubeSurfer.EcsComponent;
 using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
 using UnityEngine;
+using CameraSettings = CubeSurfer.EcsComponent.Camera.Settings;
 
 namespace CubeSurfer.EcsEntity
 {
@@ -17,10 +18,10 @@ namespace CubeSurfer.EcsEntity
             _entity = world.NewEntity();
             _entity.Get<EcsComponent.Camera.Tag>();
 
-            ref var transformRef = ref _entity.Get<EcsComponent.TransformRef>();
+            ref var transformRef = ref _entity.Get<TransformRef>();
             transformRef.Transform = transform;
 
-            ref var settingsRef = ref _entity.Get<EcsComponent.Camera.Settings>();
+            ref var settingsRef = ref _entity.Get<CameraSettings>();
             settingsRef = settings;
         }
 

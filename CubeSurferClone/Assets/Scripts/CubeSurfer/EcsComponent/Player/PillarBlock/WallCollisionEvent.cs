@@ -6,6 +6,6 @@ namespace CubeSurfer.EcsComponent.Player.PillarBlock
     [Serializable]
     public struct WallCollisionEvent
     {
-        public Transform wall;
+        
     }
 }
