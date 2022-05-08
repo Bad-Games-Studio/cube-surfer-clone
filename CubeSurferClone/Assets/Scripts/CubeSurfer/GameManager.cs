@@ -1,4 +1,5 @@
 using System;
+using CubeSurfer.GameSave;
 using CubeSurfer.Util.Ecs;
 using UnityEngine;
 using EcsMainSystemsInitialization = CubeSurfer.EcsSystemsInitialization.MainInitialization;
@@ -18,7 +19,12 @@ namespace CubeSurfer
         public FollowingCameraEntity FollowingCamera { get; private set; }
 
         public const int MaxGemsAmount = 999;
-        public int GemsAmount { get; private set; }
+
+        public int GemsAmount
+        {
+            get => _gameSaveData.GemsAmount;
+            set => _gameSaveData.GemsAmount = Mathf.Clamp(value, 0, MaxGemsAmount);
+        }
         
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private GameObject levelPrefab;
@@ -27,9 +33,11 @@ namespace CubeSurfer
         private EcsMainSystemsInitialization _systemsInitialization;
         private Transform _thisTransform;
 
+        private GameSaveData _gameSaveData;
+
         public void NextLevel()
         {
-            
+            _gameSaveData.Save();
         }
 
         public void RestartLevel()
@@ -37,16 +45,13 @@ namespace CubeSurfer
             
         }
 
-        public void AddGems(int amount)
-        {
-            GemsAmount = Mathf.Clamp(GemsAmount + amount, 0, MaxGemsAmount);
-        }
-        
         private void Awake()
         {
             _thisTransform = transform;
             
             _systemsInitialization = FindObjectOfType<EcsMainSystemsInitialization>();
+            
+            _gameSaveData = GameSaveData.LoadFromFile();
         }
 
         private void OnEnable()

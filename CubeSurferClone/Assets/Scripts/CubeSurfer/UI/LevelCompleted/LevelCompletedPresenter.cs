@@ -65,7 +65,7 @@ namespace CubeSurfer.UI.LevelCompleted
 
             _rewardLabel.SetValues(gameManager.Level.CompletionReward, gameManager.Player.ScoreMultiplier);
 
-            gameManager.AddGems(gameManager.Level.CompletionReward * gameManager.Player.ScoreMultiplier);
+            gameManager.GemsAmount += gameManager.Level.CompletionReward * gameManager.Player.ScoreMultiplier;
             _gemCounter.Amount = gameManager.GemsAmount;
         }
         

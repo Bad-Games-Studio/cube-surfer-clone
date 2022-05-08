@@ -5,10 +5,11 @@ using UnityEngine;
 
 namespace CubeSurfer.GameSave
 {
-    public class GameSaveData
+    public struct GameSaveData
     {
         private const int MaxSupportedVersion = 1;
-        private static string Path => $"{Application.dataPath}/save.dat";
+        private static string Folder => $"{Application.dataPath}/Saves";
+        private static string Path => $"{Folder}/save.dat";
 
         private int LastReadVersion { get; set; }
         public int GemsAmount { get; set; }
@@ -17,47 +18,63 @@ namespace CubeSurfer.GameSave
         public static readonly GameSaveData DefaultSettings = new GameSaveData
         {
             LastReadVersion = MaxSupportedVersion,
-            GemsAmount = 0,
+            GemsAmount = 0
         };
-        
-        
-        public static GameSaveData ReadFromFile()
+
+
+        public void Load()
         {
-            var saveData = new GameSaveData();
+            if (!Directory.Exists(Folder))
+            {
+                Directory.CreateDirectory(Folder);
+            }
             
             using var reader = new BinaryReader(File.Open(Path, FileMode.OpenOrCreate));
-
+            
             var version = reader.ReadInt32OrDefault(MaxSupportedVersion);
             if (version > MaxSupportedVersion)
             {
                 Debug.Log("Cannot read the save file: " +
                           $"file version ({version}) is not yet supported (should be {MaxSupportedVersion} or less).");
-                return saveData;
+                return;
             }
 
             if (version <= 0)
             {
                 Debug.Log("Cannot read the save file: " +
                           "file does not exist, or file version is not supported.");
-                return saveData;
+                return;
             }
 
             var manager = DecideVersionClass(version);
-            manager.Read(reader, saveData);
-
-            return saveData;
+            manager.Read(reader, ref this);
         }
 
-        public static void SaveToFile(GameSaveData saveData)
+        public void Save()
         {
             using var writer = new BinaryWriter(File.Open(Path, FileMode.OpenOrCreate));
             
             writer.Write(MaxSupportedVersion);
 
-            var versionedData = DecideVersionClass(saveData.LastReadVersion);
-            versionedData.Save(writer, saveData);
+            var versionedData = DecideVersionClass(LastReadVersion);
+            versionedData.Save(writer, ref this);
 
-            saveData.LastReadVersion = MaxSupportedVersion;
+            LastReadVersion = MaxSupportedVersion;
+        }
+        
+        
+        public static GameSaveData LoadFromFile()
+        {
+            var saveData = DefaultSettings;
+            
+            saveData.Load();
+
+            return saveData;
+        }
+
+        public static void SaveToFile(ref GameSaveData saveData)
+        {
+            saveData.Save();
         }
 
         private static IVersion DecideVersionClass(int version)
