@@ -38,22 +38,23 @@ namespace CubeSurfer.UI.PlayerDeath
 
         private void SubscribeToEntities()
         {
-            gameManager.Player.OnDied += OnPlayerDeath;
+            gameManager.Player.OnDied += ShowWindowOnPlayerDeath;
         }
         
         private void UnsubscribeFromEntities()
         {
-            gameManager.Player.OnDied -= OnPlayerDeath;
+            gameManager.Player.OnDied -= ShowWindowOnPlayerDeath;
         }
 
+        private void ShowWindowOnPlayerDeath()
+        {
+            _mainWindow.gameObject.SetActive(true);
+        }
+        
         private void RetryOnButtonClick()
         {
             _mainWindow.gameObject.SetActive(false);
-        }
-
-        private void OnPlayerDeath()
-        {
-            _mainWindow.gameObject.SetActive(true);
+            gameManager.RestartLevel();
         }
     }
 }

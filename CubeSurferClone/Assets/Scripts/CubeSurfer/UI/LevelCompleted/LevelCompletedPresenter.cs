@@ -45,12 +45,12 @@ namespace CubeSurfer.UI.LevelCompleted
         
         private void SubscribeToEntities()
         {
-            gameManager.Player.OnLevelCompleted += OnLevelCompleted;
+            gameManager.Player.OnLevelCompleted += ShowWindowOnLevelCompleted;
         }
         
         private void UnsubscribeFromEntities()
         {
-            gameManager.Player.OnLevelCompleted -= OnLevelCompleted;
+            gameManager.Player.OnLevelCompleted -= ShowWindowOnLevelCompleted;
         }
 
         private void SetWindowsActive(bool value)
@@ -59,7 +59,7 @@ namespace CubeSurfer.UI.LevelCompleted
             _gemCounter.gameObject.SetActive(value);
         }
         
-        private void OnLevelCompleted()
+        private void ShowWindowOnLevelCompleted()
         {
             SetWindowsActive(true);
 
@@ -72,6 +72,7 @@ namespace CubeSurfer.UI.LevelCompleted
         private void ContinueGameOnButtonClick()
         {
             SetWindowsActive(false);
+            gameManager.NextLevel();
         }
     }
 }
