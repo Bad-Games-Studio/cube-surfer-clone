@@ -18,8 +18,12 @@ namespace CubeSurfer.EcsEntity.Player
         private Leopotam.Ecs.EcsEntity _entity;
         private EcsWorld _ecsWorld;
 
+        private Transform _myTransform;
+
         private void Awake()
         {
+            _myTransform = transform;
+            
             _player = transform.parent.GetComponent<PlayerMain>();
             BlocksAmount = 0;
         }
@@ -49,11 +53,14 @@ namespace CubeSurfer.EcsEntity.Player
 
         public void AddPillarBlock()
         {
-            var t = transform;
-            var position = t.position;
-            position.y += BlocksAmount * pillarBlockPrefab.transform.localScale.y;
+            var position = _myTransform.position;
+            if (BlocksAmount > 0)
+            {
+                position = TopmostCubePosition();
+                position.y += pillarBlockPrefab.transform.localScale.y;
+            }
             
-            var instance = Instantiate(pillarBlockPrefab, position, t.localRotation);
+            var instance = Instantiate(pillarBlockPrefab, position, _myTransform.localRotation);
             instance.transform.parent = transform;
             
             var pillarBlock = instance.GetComponent<PillarBlock>();
@@ -69,6 +76,21 @@ namespace CubeSurfer.EcsEntity.Player
             {
                 _player.MarkDead();
             }
+        }
+
+        private Vector3 TopmostCubePosition()
+        {
+            var highestPosition = _myTransform.position;
+            for (var i = 0; i < _myTransform.childCount; ++i)
+            {
+                var childPosition = transform.GetChild(i).position;
+                if (childPosition.y > highestPosition.y)
+                {
+                    highestPosition = childPosition;
+                }
+            }
+
+            return highestPosition;
         }
     }
 }
