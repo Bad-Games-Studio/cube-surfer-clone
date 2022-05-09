@@ -6,7 +6,6 @@ using Leopotam.Ecs;
 using UnityEngine;
 using PlayerMain = CubeSurfer.EcsEntity.Player.Main;
 using PillarBlockTag = CubeSurfer.EcsComponent.Player.PillarBlock.Tag;
-using BlockCollectedEvent = CubeSurfer.EcsComponent.Player.PillarBlock.BlockCollectedEvent;
 using TouchedLavaEvent = CubeSurfer.EcsComponent.Player.PillarBlock.TouchedLavaEvent;
 using WallCollisionEvent = CubeSurfer.EcsComponent.Player.PillarBlock.WallCollisionEvent;
 
@@ -62,8 +61,17 @@ namespace CubeSurfer.EcsEntity.Player
 
         private void FireBlockCollectedEvent(CollectiblePillarBlock block)
         {
-            ref var blockCollectedEvent = ref _entity.Get<BlockCollectedEvent>();
-            blockCollectedEvent.block = block;
+            if (block.wasTouched)
+            {
+                return;
+            }
+
+            block.wasTouched = true;
+            
+            Destroy(block.gameObject);
+            
+            var pillar = GetComponentInParent<CubesPillar>();
+            pillar.AddPillarBlock();
         }
 
         private void FireTouchedLavaEvent()

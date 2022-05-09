@@ -23,10 +23,8 @@ namespace CubeSurfer.EcsSystemsInitialization.Subsystem
             
             systems
                 .Add(new EcsSystem.Player.CubesPillar.HorizontalMovement())
-                .Add(new EcsSystem.Player.PillarCube.BlockCollecting())
                 .Add(new EcsSystem.Player.PillarCube.WallCollision())
                 .Add(new EcsSystem.Player.PillarCube.LavaCollision())
-                .OneFrame<EcsComponent.Player.PillarBlock.BlockCollectedEvent>()
                 .OneFrame<EcsComponent.Player.PillarBlock.WallCollisionEvent>()
                 .OneFrame<EcsComponent.Player.PillarBlock.WallCollisionEvent>();
         }
