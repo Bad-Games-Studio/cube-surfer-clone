@@ -36,7 +36,7 @@ namespace CubeSurfer.Snapping
         {
             var t = transform;
             t.rotation = other.FrontSnapPoint.Rotation;
-            t.position = other.FrontSnapPoint.GlobalPosition - BackSnapPoint.Offset;
+            t.position = other.FrontSnapPoint.GlobalPosition - BackSnapPoint.Offset(t.position);
         }
     }
 }

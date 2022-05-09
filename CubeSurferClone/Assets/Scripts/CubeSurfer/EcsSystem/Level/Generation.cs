@@ -227,9 +227,9 @@ namespace CubeSurfer.EcsSystem.Level
                 return platform;
             }
 
-            var source = platform.GetComponent<SnapPointsHolder>();
-            var destination = previousPlatform.GetComponent<SnapPointsHolder>();
-            source.SnapTo(destination);
+            var thisObject = platform.GetComponent<SnapPointsHolder>();
+            var previousObject = previousPlatform.GetComponent<SnapPointsHolder>();
+            thisObject.SnapTo(previousObject);
 
             return platform;
         }
