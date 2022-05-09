@@ -165,7 +165,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1550039599986377323, guid: 200dea5353b3eab4ca0c6f68894886a4, type: 3}
       propertyPath: m_Name
-      value: Fence (Height 1)
+      value: Horizontal Stripe
       objectReference: {fileID: 0}
     - target: {fileID: 1952706997516893818, guid: 200dea5353b3eab4ca0c6f68894886a4, type: 3}
       propertyPath: m_RootOrder

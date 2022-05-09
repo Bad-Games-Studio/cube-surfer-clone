@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 839708324869945685}
   - component: {fileID: 2490753436683462882}
   m_Layer: 0
-  m_Name: Medium Wall - Tunnel (Height 5)
+  m_Name: Hard Wall - Tunnel (Height 5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
