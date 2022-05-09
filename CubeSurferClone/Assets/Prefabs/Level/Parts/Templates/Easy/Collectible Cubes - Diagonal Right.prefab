@@ -43,9 +43,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4786059256547006842}
   - component: {fileID: 6130753454342762628}
-  - component: {fileID: 7229545274856543213}
+  - component: {fileID: 9172620072554409705}
   m_Layer: 0
-  m_Name: Platform With Cubes - Straight Line
+  m_Name: Collectible Cubes - Diagonal Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c994b85393071624ba04bcb046b88dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7229545274856543213
+--- !u!114 &9172620072554409705
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,7 +109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8277695778957891397, guid: 183b96686c63a264092b38255f42fba5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8277695778957891397, guid: 183b96686c63a264092b38255f42fba5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -237,7 +237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8277695778957891397, guid: 183b96686c63a264092b38255f42fba5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8277695778957891397, guid: 183b96686c63a264092b38255f42fba5, type: 3}
       propertyPath: m_LocalPosition.y

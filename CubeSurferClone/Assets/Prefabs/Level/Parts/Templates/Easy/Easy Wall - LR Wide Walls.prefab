@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 839708324869945685}
   - component: {fileID: 680448913165683648}
   m_Layer: 0
-  m_Name: Walls Platform - LR Wide Walls
+  m_Name: Easy Wall - LR Wide Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

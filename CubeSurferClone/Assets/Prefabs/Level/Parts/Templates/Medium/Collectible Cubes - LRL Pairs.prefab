@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 6130753454342762628}
   - component: {fileID: 1183777994135947131}
   m_Layer: 0
-  m_Name: Platform With Cubes - LRL Pairs
+  m_Name: Collectible Cubes - LRL Pairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
