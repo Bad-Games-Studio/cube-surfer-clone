@@ -36,7 +36,7 @@ namespace CubeSurfer.EcsEntity.Player
         {
             if (other.TryGetComponent(out CollectiblePillarBlock block))
             {
-                FireBlockCollectedEvent(block);
+                CollectBlock(block);
             }
 
             if (other.TryGetComponent(out LavaPool _))
@@ -59,7 +59,7 @@ namespace CubeSurfer.EcsEntity.Player
             }
         }
 
-        private void FireBlockCollectedEvent(CollectiblePillarBlock block)
+        private void CollectBlock(CollectiblePillarBlock block)
         {
             if (block.wasTouched)
             {
