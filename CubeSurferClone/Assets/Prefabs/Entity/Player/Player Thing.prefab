@@ -75,9 +75,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1361e52fa7d18f4f9cc1ceb4a965cc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pillarBlockPrefab: {fileID: 8277695778957891396, guid: 8cdc99265042a9c48abfc484a6aa0514, type: 3}
   forwardMovement:
     speed: 10
     isMoving: 0
+  horizontalMovement:
+    touchSensitivity: 1
+    keyboardSensitivity: 7.5
+    areaWidth: 4
 --- !u!1 &2101753949890367633
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,8 +126,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7251dc4055eb49d7b7bbc5427f56b793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalMovement:
-    movementSensitivity: 1
-    keyboardSensitivity: 7.5
-    areaWidth: 4
-  pillarBlockPrefab: {fileID: 8277695778957891396, guid: 8cdc99265042a9c48abfc484a6aa0514, type: 3}

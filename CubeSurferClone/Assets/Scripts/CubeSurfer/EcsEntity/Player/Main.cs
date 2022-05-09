@@ -6,6 +6,7 @@ using Leopotam.Ecs;
 using UnityEngine;
 using ForwardMovement = CubeSurfer.EcsComponent.Player.Main.ForwardMovement;
 using TurningMovement = CubeSurfer.EcsComponent.Player.Main.TurningMovement;
+using PillarHorizontalMovement = CubeSurfer.EcsComponent.Player.CubesPillar.HorizontalMovement;
 
 namespace CubeSurfer.EcsEntity.Player
 {
@@ -14,13 +15,18 @@ namespace CubeSurfer.EcsEntity.Player
         public event Action OnLevelCompleted;
         public event Action OnDied;
         
+        
+        [SerializeField] private GameObject pillarBlockPrefab;
         [SerializeField] private ForwardMovement forwardMovement;
+        [SerializeField] private PillarHorizontalMovement horizontalMovement;
+        
         
         private Leopotam.Ecs.EcsEntity _entity;
 
         private bool _finishReached;
         public int ScoreMultiplier { get; private set; }
 
+        
         public void CreateEntityIn(EcsWorld world)
         {
             _finishReached = false;
@@ -31,10 +37,21 @@ namespace CubeSurfer.EcsEntity.Player
             ref var transformRef = ref _entity.Get<EcsComponent.TransformRef>();
             transformRef.Transform = transform;
 
-            var pillar = GetComponentInChildren<CubesPillar>();
-            pillar.CreateEntityIn(world);
+            InitializePillarIn(world);
             
             StartMovingForward();
+        }
+
+        private void InitializePillarIn(EcsWorld world)
+        {
+            horizontalMovement.CurrentScreenPosition = PillarHorizontalMovement.InitialScreenPosition;
+            
+            var pillar = GetComponentInChildren<CubesPillar>();
+            
+            pillar.SetMovementParameters(ref horizontalMovement);
+            pillar.SetPillarBlockPrefab(pillarBlockPrefab);
+            
+            pillar.CreateEntityIn(world);
         }
 
         private void OnDisable()

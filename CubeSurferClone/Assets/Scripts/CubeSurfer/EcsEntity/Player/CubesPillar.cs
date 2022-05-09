@@ -8,9 +8,8 @@ namespace CubeSurfer.EcsEntity.Player
 {
     public class CubesPillar : MonoBehaviour, IEcsWorldEntity
     {
-        [SerializeField] private HorizontalMovement horizontalMovement;
-        
-        [SerializeField] private GameObject pillarBlockPrefab;
+        private GameObject _pillarBlockPrefab;
+        private HorizontalMovement _horizontalMovement;
         
         private int BlocksAmount { get; set; }
 
@@ -21,6 +20,16 @@ namespace CubeSurfer.EcsEntity.Player
 
         private Transform _myTransform;
 
+        public void SetMovementParameters(ref HorizontalMovement newParameters)
+        {
+            _horizontalMovement = newParameters;
+        }
+
+        public void SetPillarBlockPrefab(GameObject prefab)
+        {
+            _pillarBlockPrefab = prefab;
+        }
+        
         private void Awake()
         {
             _myTransform = transform;
@@ -44,8 +53,7 @@ namespace CubeSurfer.EcsEntity.Player
             transformRef.Transform = transform;
             
             ref var pillarMovementRef = ref _entity.Get<HorizontalMovement>();
-            horizontalMovement.CurrentScreenPosition = HorizontalMovement.InitialScreenPosition;
-            pillarMovementRef = horizontalMovement;
+            pillarMovementRef = _horizontalMovement;
         }
 
         private void OnDisable()
@@ -59,10 +67,10 @@ namespace CubeSurfer.EcsEntity.Player
             if (BlocksAmount > 0)
             {
                 position = TopmostCubePosition();
-                position.y += pillarBlockPrefab.transform.localScale.y;
+                position.y += _pillarBlockPrefab.transform.localScale.y;
             }
             
-            var instance = Instantiate(pillarBlockPrefab, position, _myTransform.localRotation);
+            var instance = Instantiate(_pillarBlockPrefab, position, _myTransform.localRotation);
             instance.transform.parent = transform;
             
             var pillarBlock = instance.GetComponent<PillarBlock>();
