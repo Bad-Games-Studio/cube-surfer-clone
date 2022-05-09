@@ -8,7 +8,7 @@ namespace CubeSurfer.GameSave
     public struct GameSaveData
     {
         private const int MaxSupportedVersion = 2;
-        private static string Folder => $"{Application.dataPath}/Saves";
+        private static string Folder => $"{Application.persistentDataPath}/Saves";
         private static string Path => $"{Folder}/save.dat";
 
         private int LastReadVersion { get; set; }
