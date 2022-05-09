@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalMovement:
-    movementSensitivity: 10
+    movementSensitivity: 1
+    keyboardSensitivity: 7.5
     areaWidth: 4
   pillarBlockPrefab: {fileID: 8277695778957891396, guid: 8cdc99265042a9c48abfc484a6aa0514, type: 3}

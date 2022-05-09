@@ -2,12 +2,13 @@ using CubeSurfer.Util.Ecs;
 using Leopotam.Ecs;
 using UnityEngine;
 using PlayerMain = CubeSurfer.EcsEntity.Player.Main;
+using HorizontalMovement = CubeSurfer.EcsComponent.Player.CubesPillar.HorizontalMovement;
 
 namespace CubeSurfer.EcsEntity.Player
 {
     public class CubesPillar : MonoBehaviour, IEcsWorldEntity
     {
-        [SerializeField] private EcsComponent.Player.CubesPillar.HorizontalMovement horizontalMovement;
+        [SerializeField] private HorizontalMovement horizontalMovement;
         
         [SerializeField] private GameObject pillarBlockPrefab;
         
@@ -42,7 +43,8 @@ namespace CubeSurfer.EcsEntity.Player
             ref var transformRef = ref _entity.Get<EcsComponent.TransformRef>();
             transformRef.Transform = transform;
             
-            ref var pillarMovementRef = ref _entity.Get<EcsComponent.Player.CubesPillar.HorizontalMovement>();
+            ref var pillarMovementRef = ref _entity.Get<HorizontalMovement>();
+            horizontalMovement.CurrentScreenPosition = HorizontalMovement.InitialScreenPosition;
             pillarMovementRef = horizontalMovement;
         }
 
