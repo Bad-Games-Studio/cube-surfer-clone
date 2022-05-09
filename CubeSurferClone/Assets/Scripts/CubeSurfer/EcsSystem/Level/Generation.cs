@@ -170,11 +170,11 @@ namespace CubeSurfer.EcsSystem.Level
             switch (_currentDirection)
             {
                 case Direction.PositiveZ:
-                    var decision = UnityRandom.Range(0.0f, 0.1f);
-                    _currentDirection = decision < 0.5f ? 
+                    var decision = UnityRandom.Range(1, 100);
+                    _currentDirection = decision < 50 ? 
                         Direction.NegativeX : 
                         Direction.PositiveX;
-                    return decision < 0.5f ? 
+                    return decision < 50 ? 
                         settings.objectsPreset.turnLeftPlatform : 
                         settings.objectsPreset.turnRightPlatform;
                 
