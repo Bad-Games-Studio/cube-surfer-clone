@@ -55,6 +55,6 @@ MonoBehaviour:
   levelObjectsPresets:
   - {fileID: 11400000, guid: f732de06e3e750b4e97263f66fd2a05f, type: 2}
   - {fileID: 11400000, guid: f732de06e3e750b4e97263f66fd2a05f, type: 2}
-  - {fileID: 11400000, guid: 994e2f31dbd7d4b4291d4226ad623ef7, type: 2}
-  - {fileID: 11400000, guid: 994e2f31dbd7d4b4291d4226ad623ef7, type: 2}
-  - {fileID: 11400000, guid: acd099cfdb7dda048a19864f3040942b, type: 2}
+  - {fileID: 11400000, guid: 77fd905435de48b418ef84ed65c8505c, type: 2}
+  - {fileID: 11400000, guid: 77fd905435de48b418ef84ed65c8505c, type: 2}
+  - {fileID: 11400000, guid: 8a12c48fc81224641ae317f80dc64b9d, type: 2}
