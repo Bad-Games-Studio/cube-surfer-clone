@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be4f3337b9dace49aef53d535b9b4ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minScoreToLose: 1
+  minScoreToLose: 0
 --- !u!1001 &2453367964605327007
 PrefabInstance:
   m_ObjectHideFlags: 0
