@@ -6,7 +6,7 @@ namespace CubeSurfer.EcsComponent.Player.CubesPillar
     [Serializable]
     public struct HorizontalMovement
     {
-        [Range(0.1f, 2.0f)] public float movementSensitivity;
+        [Range(0.1f, 2.0f)] public float touchSensitivity;
         [Range(0.1f, 10.0f)] public float keyboardSensitivity;
         
         public float areaWidth;

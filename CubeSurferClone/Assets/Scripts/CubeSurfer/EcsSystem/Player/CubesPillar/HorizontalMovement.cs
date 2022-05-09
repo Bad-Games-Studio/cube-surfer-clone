@@ -35,7 +35,7 @@ namespace CubeSurfer.EcsSystem.Player.CubesPillar
         private static void HandleMovementByTouch(Transform transform, ref MovementComponent horizontalMovement)
         {
             var delta = GetTouchDelta();
-            horizontalMovement.CurrentScreenPosition += delta * horizontalMovement.movementSensitivity;
+            horizontalMovement.CurrentScreenPosition += delta * horizontalMovement.touchSensitivity;
             
             var localPosition = transform.localPosition;
             localPosition.x = horizontalMovement.MappedPosition;
